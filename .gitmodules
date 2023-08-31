@@ -1,0 +1,3 @@
+[submodule "WolfRenderer/vendor/spdlog"]
+	path = WolfRenderer/vendor/spdlog
+	url = https://github.com/gabime/spdlog
