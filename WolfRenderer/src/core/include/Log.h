@@ -49,3 +49,4 @@ namespace WolfRenderer
 #define WLFR_FATAL(...)     ::WolfRenderer::Log::GetClientLogger()->fatal(__VA_ARGS__)
 
 
+//If a distribution build of an engine, we redefine the client logger macros as undefined
