@@ -1,3 +1,9 @@
 [submodule "WolfRenderer/vendor/spdlog"]
 	path = WolfRenderer/vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "WolfRenderer/vendor/WolfRenderer/vendor"]
+	path = WolfRenderer/vendor/WolfRenderer/vendor
+	url = https://github.com/ocornut/imgui.git
+[submodule "WolfRenderer/vendor/imgui"]
+	path = WolfRenderer/vendor/imgui
+	url = https://github.com/ocornut/imgui.git
