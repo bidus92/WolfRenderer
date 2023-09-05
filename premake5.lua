@@ -22,6 +22,9 @@ project "WolfRenderer"
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
+	pchheader "pch.h"
+	pchsource "WolfRenderer/src/pch.cpp"
+
 	files
 	{
 		"%{prj.name}/src/**.h",

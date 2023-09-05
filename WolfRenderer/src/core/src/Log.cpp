@@ -1,3 +1,5 @@
+#include "pch.h"
+
 #include "core/Log.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 
@@ -16,7 +18,7 @@ namespace WolfRenderer
 
 		s_CoreLogger = spdlog::stdout_color_mt("WOLFRENDERER");
 
-		//trace with spdlog::level will print all log levels in effect 
+		//starting at trace with spdlog::level will print all log levels in effect 
 		s_CoreLogger->set_level(spdlog::level::trace); 
 
 		s_ClientLogger = spdlog::stdout_color_mt("APP");

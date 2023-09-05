@@ -28,6 +28,9 @@
     <ClInclude Include="src\core\core.h">
       <Filter>core</Filter>
     </ClInclude>
+    <ClInclude Include="src\core\pch.h">
+      <Filter>core</Filter>
+    </ClInclude>
     <ClInclude Include="src\events\ApplicationEvent.h">
       <Filter>events</Filter>
     </ClInclude>
@@ -40,6 +43,7 @@
     <ClInclude Include="src\events\MouseEvent.h">
       <Filter>events</Filter>
     </ClInclude>
+    <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
@@ -60,5 +64,6 @@
     <ClCompile Include="src\events\src\MouseEvent.cpp">
       <Filter>events\src</Filter>
     </ClCompile>
+    <ClCompile Include="src\pch.cpp" />
   </ItemGroup>
 </Project>

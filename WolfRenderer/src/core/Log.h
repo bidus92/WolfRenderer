@@ -1,7 +1,6 @@
 #pragma once
 //HEADER FOR LOGGING INFO. UTILIZATION OF SPDLOG LIBRARY
 
-#include <memory> //for utilization of smart pointers (shared pointers specifically) 
 #include "core/core.h"
 #include "spdlog/spdlog.h"
 #include "spdlog/fmt/ostr.h" //header used to log custom types we create (like our events)
