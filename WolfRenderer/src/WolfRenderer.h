@@ -7,13 +7,13 @@
 
 //ONLY TO BE INCLUDED WITH OTHER APPLICATIONS THAT USE WOLFRENDERER
 
-#include "Application.h"
+#include "core/Application.h"
 
-#include "Log.h"
+#include "core/Log.h"
 
 //*****ENTRY POINT*****
 
-#include "EntryPoint.h"
+#include "core/EntryPoint.h"
 
 //*********************
 

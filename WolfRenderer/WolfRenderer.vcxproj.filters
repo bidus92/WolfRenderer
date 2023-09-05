@@ -4,31 +4,61 @@
     <Filter Include="core">
       <UniqueIdentifier>{4E40957C-3A77-960D-E363-7C10CF79120F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\include">
-      <UniqueIdentifier>{C1D54CD6-AD38-DC7A-56BE-14314200A8FD}</UniqueIdentifier>
+    <Filter Include="core\src">
+      <UniqueIdentifier>{6575D44A-5142-2F56-7A5B-1DFE668764E4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events">
+      <UniqueIdentifier>{5A9D08FC-463F-33D2-2FFA-46261B3BBA22}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="events\src">
+      <UniqueIdentifier>{717887DF-5D30-C92C-C637-A288B20E641D}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\WolfRenderer.h" />
-    <ClInclude Include="src\core\include\Application.h">
-      <Filter>core\include</Filter>
+    <ClInclude Include="src\core\Application.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\include\EntryPoint.h">
-      <Filter>core\include</Filter>
+    <ClInclude Include="src\core\EntryPoint.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\include\Log.h">
-      <Filter>core\include</Filter>
+    <ClInclude Include="src\core\Log.h">
+      <Filter>core</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\include\core.h">
-      <Filter>core\include</Filter>
+    <ClInclude Include="src\core\core.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\ApplicationEvent.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\Event.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\KeyEvent.h">
+      <Filter>events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\MouseEvent.h">
+      <Filter>events</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\core\Application.cpp">
-      <Filter>core</Filter>
+    <ClCompile Include="src\core\src\Application.cpp">
+      <Filter>core\src</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\Log.cpp">
-      <Filter>core</Filter>
+    <ClCompile Include="src\core\src\Log.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\src\ApplicationEvent.cpp">
+      <Filter>events\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\src\Event.cpp">
+      <Filter>events\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\src\KeyEvent.cpp">
+      <Filter>events\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\src\MouseEvent.cpp">
+      <Filter>events\src</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

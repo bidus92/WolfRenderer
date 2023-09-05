@@ -31,7 +31,7 @@ project "WolfRenderer"
 	includedirs
 	{
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/src/core/include"
+		"%{prj.name}/src"
 	}
 
 
@@ -87,8 +87,7 @@ language "C++"
 	includedirs
 	{
 		"WolfRenderer/vendor/spdlog/include",
-		"WolfRenderer/src",
-		"WolfRenderer/src/core/include"
+		"WolfRenderer/src"
 	}
 
 	links
