@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\vendor\SDL3\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\vendor\spdlog\include;..\..\vendor\Dear_ImGui;..\..\vendor\SDL3\include;..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -97,7 +97,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\vendor\SDL3\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\vendor\spdlog\include;..\..\vendor\Dear_ImGui;..\..\vendor\SDL3\include;..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -119,7 +119,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\vendor\SDL3\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\vendor\spdlog\include;..\..\vendor\Dear_ImGui;..\..\vendor\SDL3\include;..\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -136,10 +136,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\sandbox.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WolfRenderer\WolfRenderer\WolfRenderer.vcxproj">
+    <ProjectReference Include="..\WolfRenderer\WolfRenderer.vcxproj">
       <Project>{74DC4600-603F-D6A4-09C5-0E5BF506A227}</Project>
     </ProjectReference>
   </ItemGroup>

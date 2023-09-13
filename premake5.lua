@@ -11,57 +11,85 @@ workspace "WolfRenderer"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/vendor/Dear_ImGui"
+IncludeDir["SDL3"] = "%{wks.location}/WolfRenderer/vendor/SDL3/include"
+
+
+include "WolfRenderer/vendor/Dear_ImGui/imgui"
+
+include "WolfRenderer/vendor/SDL3"
+
+	
 project "WolfRenderer"
 
-	location "WolfRenderer"
-
+	location "%{prj.name}/WolfRenderer"
 	kind "SharedLib"
-
 	language "C++"
+	cppdialect "C++20"
+	
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "pch.h"
-	pchsource "WolfRenderer/src/pch.cpp"
-
+	pchsource "%{wks.location}/WolfRenderer/WolfRenderer/src/pch.cpp"
+		
 	files
 	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{wks.location}/WolfRenderer/WolfRenderer/src/**.h",
+		"%{wks.location}/WolfRenderer/WolfRenderer/src/**.cpp"
 	}
 
 	includedirs
-	{
+	{	
+		"%{prj.name}/WolfRenderer/src",
 		"%{prj.name}/vendor/spdlog/include",
-		"%{prj.name}/src"
+		"%{IncludeDir.Dear_ImGui}",
+		"%{IncludeDir.SDL3}",
+		"%{IncludeDir.SDL3}/build_config",
+		"%{IncludeDir.SDL3}/SDL3"
+	}
+
+	libdirs
+	{
+		"%{wks.location}/WolfRenderer/vendor/bin/" .. outputdir .. "/SDL3",
+		"%{wks.location}/WolfRenderer/vendor/bin/" .. outputdir .. "Dear_ImGui"
+	}
+
+	links
+	{
+		"Dear_ImGui",
+		"SDL3"		
 	}
 
 
+
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "On"
+		staticruntime "Off"
 		systemversion "latest"
 
 
 defines
 {
-	"WLFR_PLATFORM_WINDOWS", 
+	"WLFR_PLATFORM_WINDOWS",
 	"WLFR_BUILD_DLL"
 }
 
 postbuildcommands
 {
-	("{COPY} %{cfg.buildtarget.relpath} ../bin/" .. outputdir .. "/Sandbox")
+	("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/Sandbox")
 }
 
 filter "configurations:Debug"
 	defines "WLFR_DEBUG"
 	symbols "On"
+	buildoptions "/MTd"
 
 filter "configurations:Release"
 	defines "WLFR_RELEASE"
 	optimize "On"
+	buildoptions "/MT"
 
 filter "configurations:Dist"
 	defines "WLFR_DIST"
@@ -89,8 +117,11 @@ language "C++"
 
 	includedirs
 	{
-		"WolfRenderer/vendor/spdlog/include",
-		"WolfRenderer/src"
+		"%{wks.location}/%{wks.name}/WolfRenderer/src",
+		"%{wks.location}/%{wks.name}/vendor/spdlog/include",
+		"%{IncludeDir.Dear_ImGui}",
+		"%{IncludeDir.SDL3}",
+		"%{prj.name}/src"
 	}
 
 	links
@@ -115,10 +146,12 @@ filter "system:windows"
 filter "configurations:Debug"
 	defines "WLFR_DEBUG"
 	symbols "On"
+	buildoptions "/MDd"
 
 filter "configurations:Release"
 	defines "WLFR_RELEASE"
 	optimize "On"
+	buildoptions "/MD"
 
 filter "configurations:Dist"
 	defines "WLFR_DIST"

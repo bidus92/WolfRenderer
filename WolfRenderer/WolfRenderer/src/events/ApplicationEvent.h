@@ -4,9 +4,11 @@
 #include "core/core.h"
 #include "events/Event.h"
 
+
+//SDL_Window* window = nullptr; 
+
 namespace WolfRenderer
 {
-
 	class WLFR_API WindowResizeEvent : public Event
 	{
 	public:
