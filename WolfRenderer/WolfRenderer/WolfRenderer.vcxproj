@@ -79,23 +79,24 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\Dear_ImGui;..\vendor\SDL3\include;..\vendor\SDL3\include\build_config;..\vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalOptions>/MTd %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\vendor\bin\Debug-windows-x86_64\SDL3;..\vendor\bin\Debug-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\SDL3\bin\Debug-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Debug-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll ..\..\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll ..\..\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -103,15 +104,15 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\Dear_ImGui;..\vendor\SDL3\include;..\vendor\SDL3\include\build_config;..\vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalOptions>/MT %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -119,11 +120,12 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\vendor\bin\Release-windows-x86_64\SDL3;..\vendor\bin\Release-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\SDL3\bin\Release-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Release-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll ..\..\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll ..\..\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -131,8 +133,8 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\vendor\spdlog\include;..\vendor\Dear_ImGui;..\vendor\SDL3\include;..\vendor\SDL3\include\build_config;..\vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -146,11 +148,12 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>..\vendor\bin\Dist-windows-x86_64\SDL3;..\vendor\bin\Dist-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\SDL3\bin\Dist-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Dist-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll ..\..\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll ..\..\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
+      <Command>IF EXIST ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -178,11 +181,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj">
+    <ProjectReference Include="vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj">
       <Project>{FBCBF5EC-E783-373A-508B-10963C62D22A}</Project>
     </ProjectReference>
-    <ProjectReference Include="..\vendor\SDL3\SDL3.vcxproj">
-      <Project>{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}</Project>
+    <ProjectReference Include="vendor\SDL3\build\SDL3-static.vcxproj">
+      <Project>{46047124-28AD-3B51-BD63-D18D73988CEC}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

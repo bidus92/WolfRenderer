@@ -1,12 +1,14 @@
   #pragma once
 
-#ifdef WLFR_PLATFORM_WINDOWS
 
+#ifdef WLFR_PLATFORM_WINDOWS
 
 extern WolfRenderer::Application* WolfRenderer::CreateApplication(); 
 
 int main(int argc, char** argv)
 {
+
+
 	//TEMPORARY: Will be moved later
 	WolfRenderer::Log::Init(); 
 
@@ -20,5 +22,7 @@ int main(int argc, char** argv)
 	auto app = WolfRenderer::CreateApplication(); 
 	app->run();
 	delete app;
+
+	return 0; 
 }
 #endif

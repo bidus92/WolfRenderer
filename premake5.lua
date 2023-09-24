@@ -11,14 +11,24 @@ workspace "WolfRenderer"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+--Include directory table
 IncludeDir = {}
-IncludeDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/vendor/Dear_ImGui"
-IncludeDir["SDL3"] = "%{wks.location}/WolfRenderer/vendor/SDL3/include"
+
+IncludeDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Dear_ImGui"
+IncludeDir["SDL3"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/SDL3/include"
+IncludeDir["spdlog"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/spdlog/include"
 
 
-include "WolfRenderer/vendor/Dear_ImGui/imgui"
+--Library directory table
+LibraryDir = {}
 
-include "WolfRenderer/vendor/SDL3"
+LibraryDir["SDL3"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/SDL3/bin/" .. outputdir .. "/SDL3"
+LibraryDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui/bin/" .. outputdir .. "Dear_ImGui"
+LibraryDir["WolfRenderer"] = "%{wks.location}/bin/" .. outputdir .. "/WolfRenderer"
+
+include "WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui"
+
+include "WolfRenderer/WolfRenderer/vendor/SDL3"
 
 	
 project "WolfRenderer"
@@ -27,6 +37,8 @@ project "WolfRenderer"
 	kind "SharedLib"
 	language "C++"
 	cppdialect "C++20"
+	staticruntime "Off"
+	--linkoptions {"/NODEFAULTLIB"}
 	
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -43,8 +55,8 @@ project "WolfRenderer"
 
 	includedirs
 	{	
-		"%{prj.name}/WolfRenderer/src",
-		"%{prj.name}/vendor/spdlog/include",
+		"%{wks.location}/WolfRenderer/WolfRenderer/src",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.Dear_ImGui}",
 		"%{IncludeDir.SDL3}",
 		"%{IncludeDir.SDL3}/build_config",
@@ -53,14 +65,25 @@ project "WolfRenderer"
 
 	libdirs
 	{
-		"%{wks.location}/WolfRenderer/vendor/bin/" .. outputdir .. "/SDL3",
-		"%{wks.location}/WolfRenderer/vendor/bin/" .. outputdir .. "Dear_ImGui"
+		"%{LibraryDir.SDL3}",
+		"%{LibraryDir.Dear_ImGui}"
 	}
 
 	links
 	{
 		"Dear_ImGui",
-		"SDL3"		
+		"SDL3-static",
+		"winmm.lib",
+		"version.lib",
+		"imm32.lib",
+		"setupapi.lib",
+		--"libcmt.lib",
+		--"libucrtd.lib"
+	}
+
+	postbuildcommands
+	{
+		("{COPY} %{cfg.buildtarget.relpath} %{wks.location}/bin/" .. outputdir .. "/Sandbox")
 	}
 
 
@@ -72,75 +95,11 @@ project "WolfRenderer"
 
 defines
 {
+	"SDL_STATIC_LIB",
+	"_WIN64",
 	"WLFR_PLATFORM_WINDOWS",
 	"WLFR_BUILD_DLL"
 }
-
-postbuildcommands
-{
-	("{COPY} %{cfg.buildtarget.relpath} ../../bin/" .. outputdir .. "/Sandbox")
-}
-
-filter "configurations:Debug"
-	defines "WLFR_DEBUG"
-	symbols "On"
-	buildoptions "/MTd"
-
-filter "configurations:Release"
-	defines "WLFR_RELEASE"
-	optimize "On"
-	buildoptions "/MT"
-
-filter "configurations:Dist"
-	defines "WLFR_DIST"
-	optimize "On"
-
-
-
-
-project "Sandbox"
-
-location "Sandbox"
-
-kind "ConsoleApp"
-
-language "C++"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files
-	{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs
-	{
-		"%{wks.location}/%{wks.name}/WolfRenderer/src",
-		"%{wks.location}/%{wks.name}/vendor/spdlog/include",
-		"%{IncludeDir.Dear_ImGui}",
-		"%{IncludeDir.SDL3}",
-		"%{prj.name}/src"
-	}
-
-	links
-	{
-		"WolfRenderer"
-	}
-
-filter "system:windows"
-	cppdialect "C++20"
-	staticruntime "On"
-	systemversion "latest"
-
-
-	defines
-	{
-		"WLFR_PLATFORM_WINDOWS"
-	}
-
-
 
 
 filter "configurations:Debug"
@@ -148,10 +107,91 @@ filter "configurations:Debug"
 	symbols "On"
 	buildoptions "/MDd"
 
+
 filter "configurations:Release"
 	defines "WLFR_RELEASE"
 	optimize "On"
 	buildoptions "/MD"
+
+filter "configurations:Dist"
+	defines "WLFR_DIST"
+	optimize "On"
+
+
+
+project "Sandbox"
+
+    location "%{prj.name}"
+
+    kind "ConsoleApp"
+
+    language "C++"
+
+	targetdir ("bin/" .. outputdir .. "/Sandbox")
+	objdir ("bin-int/" .. outputdir .. "/Sandbox")
+
+	files	
+	{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs
+	{
+		"%{wks.location}/WolfRenderer/WolfRenderer/src",
+		"%{IncludeDir.spdlog}",
+		"%{IncludeDir.Dear_ImGui}",
+		"%{IncludeDir.SDL3}",
+		"%{IncludeDir.SDL3}/build_config",
+		"%{IncludeDir.SDL3}/SDL3",
+		"%{prj.name}/src"
+	}
+	
+	libdirs
+	{
+		"%{LibraryDir.WolfRenderer}"
+	}
+
+	links
+	{
+		"WolfRenderer"
+		--"winmm.lib",
+		--"imm32.lib",
+		--"version.lib"
+		--"libucrtd.lib",
+		--"libcmt.lib",
+		--"NtosKrnl.lib"
+		--,
+		--"winmm.lib", 
+		--"setupapi.lib", "version.lib",
+		 --"Imm32.lib"
+	}
+
+filter "system:windows"
+	cppdialect "C++20"
+	--staticruntime "On"
+	systemversion "latest"
+
+
+	defines
+	{
+		--"SDL_STATIC_LIB",
+		--"_WIN64",
+		"WLFR_PLATFORM_WINDOWS"
+	}
+
+
+
+
+filter "configurations:Debug"
+	defines {"WLFR_DEBUG", "_DEBUG"}
+	symbols "On"
+
+
+filter "configurations:Release"
+	defines {"WLFR_RELEASE", "NDEBUG"}
+	optimize "On"
+
 
 filter "configurations:Dist"
 	defines "WLFR_DIST"

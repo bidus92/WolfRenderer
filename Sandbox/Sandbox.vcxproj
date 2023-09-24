@@ -78,33 +78,30 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\vendor\SDL3\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
-      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
-      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\bin\Debug-windows-x86_64\WolfRenderer;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\vendor\SDL3\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_RELEASE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
-      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -112,6 +109,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\bin\Release-windows-x86_64\WolfRenderer;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -119,13 +117,12 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\vendor\SDL3\include;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
-      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -133,6 +130,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>..\bin\Dist-windows-x86_64\WolfRenderer;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

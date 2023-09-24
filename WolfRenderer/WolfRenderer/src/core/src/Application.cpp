@@ -6,6 +6,7 @@
 
 #include "events/ApplicationEvent.h"
 
+#include <SDL3/SDL.h>
 
 namespace WolfRenderer
 {
@@ -13,7 +14,7 @@ namespace WolfRenderer
 	Application::Application()
 	{
 
-	};
+	};	
 
 
 	Application::~Application() 
@@ -23,6 +24,8 @@ namespace WolfRenderer
 
 	void Application::run()
 	{
+		SDL_Init(SDL_INIT_EVERYTHING);
+
 		WindowResizeEvent e(1280, 720);
 
 		//should return appropriate log

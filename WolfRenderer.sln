@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dear_ImGui", "WolfRenderer\vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj", "{FBCBF5EC-E783-373A-508B-10963C62D22A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Dear_ImGui", "WolfRenderer\WolfRenderer\vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj", "{FBCBF5EC-E783-373A-508B-10963C62D22A}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL3", "WolfRenderer\vendor\SDL3\SDL3.vcxproj", "{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SDL3-static", "WolfRenderer\WolfRenderer\vendor\SDL3\build\SDL3-static.vcxproj", "{46047124-28AD-3B51-BD63-D18D73988CEC}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sandbox", "Sandbox\Sandbox.vcxproj", "{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}"
 EndProject
@@ -22,12 +22,12 @@ Global
 		{FBCBF5EC-E783-373A-508B-10963C62D22A}.Dist|x64.Build.0 = Dist|x64
 		{FBCBF5EC-E783-373A-508B-10963C62D22A}.Release|x64.ActiveCfg = Release|x64
 		{FBCBF5EC-E783-373A-508B-10963C62D22A}.Release|x64.Build.0 = Release|x64
-		{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}.Debug|x64.ActiveCfg = Debug|x64
-		{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}.Debug|x64.Build.0 = Debug|x64
-		{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}.Dist|x64.ActiveCfg = Dist|x64
-		{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}.Dist|x64.Build.0 = Dist|x64
-		{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}.Release|x64.ActiveCfg = Release|x64
-		{3BBE8B7C-27F5-8C0D-D0E1-7210BCF7080F}.Release|x64.Build.0 = Release|x64
+		{46047124-28AD-3B51-BD63-D18D73988CEC}.Debug|x64.ActiveCfg = Debug|x64
+		{46047124-28AD-3B51-BD63-D18D73988CEC}.Debug|x64.Build.0 = Debug|x64
+		{46047124-28AD-3B51-BD63-D18D73988CEC}.Dist|x64.ActiveCfg = Dist|x64
+		{46047124-28AD-3B51-BD63-D18D73988CEC}.Dist|x64.Build.0 = Dist|x64
+		{46047124-28AD-3B51-BD63-D18D73988CEC}.Release|x64.ActiveCfg = Release|x64
+		{46047124-28AD-3B51-BD63-D18D73988CEC}.Release|x64.Build.0 = Release|x64
 		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|x64.ActiveCfg = Debug|x64
 		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Debug|x64.Build.0 = Debug|x64
 		{F4C124E3-60A1-A37E-69B9-2E55D5170AE0}.Dist|x64.ActiveCfg = Dist|x64
