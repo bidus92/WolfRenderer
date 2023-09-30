@@ -13,8 +13,15 @@
     <Filter Include="events\src">
       <UniqueIdentifier>{717887DF-5D30-C92C-C637-A288B20E641D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{4A63C33C-3630-1E48-5F49-0CF04B7553D6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\Windows">
+      <UniqueIdentifier>{84B77CA1-70B0-9BF3-99E2-8078853A7BFF}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WolfRenderer.h" />
     <ClInclude Include="src\core\Application.h">
       <Filter>core</Filter>
@@ -26,9 +33,6 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\core.h">
-      <Filter>core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\core\pch.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="src\events\ApplicationEvent.h">
@@ -44,6 +48,9 @@
       <Filter>events</Filter>
     </ClInclude>
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\platform\Windows\WindowsWindow.h">
+      <Filter>platform\Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
@@ -65,5 +72,8 @@
       <Filter>events\src</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp" />
+    <ClCompile Include="src\platform\Windows\WindowsWindow.cpp">
+      <Filter>platform\Windows</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

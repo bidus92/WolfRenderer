@@ -7,8 +7,6 @@ extern WolfRenderer::Application* WolfRenderer::CreateApplication();
 
 int main(int argc, char** argv)
 {
-
-
 	//TEMPORARY: Will be moved later
 	WolfRenderer::Log::Init(); 
 

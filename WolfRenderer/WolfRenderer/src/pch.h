@@ -1,11 +1,10 @@
 #pragma once
 
-#include <utility>
+#include <iostream>
 #include <memory>
 #include <algorithm>
-#include <iostream>
+#include <utility>
 #include <functional>
-
 
 
 #include <string>
@@ -14,7 +13,8 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "core/Log.h"
 
 #ifdef WLFR_PLATFORM_WINDOWS
-	#include <windows.h>
+	#include <Windows.h>
 #endif

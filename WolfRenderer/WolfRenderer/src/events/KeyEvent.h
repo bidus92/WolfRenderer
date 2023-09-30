@@ -12,7 +12,7 @@ namespace WolfRenderer
 	class WLFR_API KeyEvent : public Event
 	{
 		public:
-			inline int GetKeycode() const const { return m_Keycode; }
+			inline int GetKeycode() const { return m_Keycode; }
 
 			EVENT_CLASS_CATEGORY(EventCategoryKeyboard | EventCategoryInput)
 	

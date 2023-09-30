@@ -90,7 +90,7 @@ namespace WolfRenderer
 	//dispatch events based on type 
 	class EventDispatcher
 	{
-		//Creating anEvent function that takes a function pointer of type bool and takes a param of any type reference
+		//Creating an Event function that takes a function pointer of type bool and takes a param of any type reference
 		template<typename T>
 		using EventFn = std::function<bool(T&)>;
 
@@ -123,6 +123,6 @@ namespace WolfRenderer
 	//utilized for our logging library to call ToString() function for our logs 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e)
 	{
-		return os <<	e.ToString();
+		return os << e.ToString();
 	}
 }

@@ -79,7 +79,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DEBUG;WLFR_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -157,17 +157,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WolfRenderer.h" />
     <ClInclude Include="src\core\Application.h" />
     <ClInclude Include="src\core\EntryPoint.h" />
     <ClInclude Include="src\core\Log.h" />
     <ClInclude Include="src\core\core.h" />
-    <ClInclude Include="src\core\pch.h" />
     <ClInclude Include="src\events\ApplicationEvent.h" />
     <ClInclude Include="src\events\Event.h" />
     <ClInclude Include="src\events\KeyEvent.h" />
     <ClInclude Include="src\events\MouseEvent.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\platform\Windows\WindowsWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\platform\Windows\WindowsWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj">

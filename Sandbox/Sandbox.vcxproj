@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DEBUG;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DEBUG;WLFR_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -95,7 +95,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_RELEASE;NDEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

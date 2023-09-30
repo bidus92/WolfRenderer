@@ -4,16 +4,16 @@
 #include "core/Application.h"
 #include "core/Log.h"
 
-#include "events/ApplicationEvent.h"
 
 #include <SDL3/SDL.h>
 
 namespace WolfRenderer
 {
-
+    #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 	Application::Application()
 	{
-
+		m_Window = std::unique_ptr<Window>(Window::Create());
+		m_Window->setEventCallback(BIND_EVENT_FN(onEvent));
 	};	
 
 
@@ -22,25 +22,30 @@ namespace WolfRenderer
 
 	};
 
-	void Application::run()
+	void Application::onEvent(Event& e)
 	{
-		SDL_Init(SDL_INIT_EVERYTHING);
+		EventDispatcher dispatcher(e);
 
-		WindowResizeEvent e(1280, 720);
+		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClosed));
 
-		//should return appropriate log
-		if (e.IsInCategory(EventCategoryApplication))
-		{
-			WLFR_TRACE(e);
-		}
-
-		//should not return anything
-		if (e.IsInCategory(EventCategoryInput))
-		{
-			WLFR_TRACE(e);
-		}
-		
-	
-		while (true);
+		WLFR_CORE_TRACE("{0}", e);
 	}
+
+
+	void Application::run()
+	{	
+		while (m_Running)
+		{
+			m_Window->onUpdate();
+		}
+
+	}	
+	
+	//takes in WindowCloseEvent via event dispatcher and closes Run loop 
+	bool Application::onWindowClosed(WindowCloseEvent& e)
+	{
+		m_Running = false; 
+		return true;
+	}
+
 }

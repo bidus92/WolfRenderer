@@ -38,7 +38,7 @@ project "WolfRenderer"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "Off"
-	--linkoptions {"/NODEFAULTLIB"}
+
 	
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -76,9 +76,7 @@ project "WolfRenderer"
 		"winmm.lib",
 		"version.lib",
 		"imm32.lib",
-		"setupapi.lib",
-		--"libcmt.lib",
-		--"libucrtd.lib"
+		"setupapi.lib"
 	}
 
 	postbuildcommands
@@ -103,7 +101,7 @@ defines
 
 
 filter "configurations:Debug"
-	defines "WLFR_DEBUG"
+	defines {"WLFR_DEBUG", "WLFR_ENABLE_ASSERTS"}
 	symbols "On"
 	buildoptions "/MDd"
 
@@ -155,16 +153,6 @@ project "Sandbox"
 	links
 	{
 		"WolfRenderer"
-		--"winmm.lib",
-		--"imm32.lib",
-		--"version.lib"
-		--"libucrtd.lib",
-		--"libcmt.lib",
-		--"NtosKrnl.lib"
-		--,
-		--"winmm.lib", 
-		--"setupapi.lib", "version.lib",
-		 --"Imm32.lib"
 	}
 
 filter "system:windows"
@@ -175,8 +163,6 @@ filter "system:windows"
 
 	defines
 	{
-		--"SDL_STATIC_LIB",
-		--"_WIN64",
 		"WLFR_PLATFORM_WINDOWS"
 	}
 
@@ -184,12 +170,12 @@ filter "system:windows"
 
 
 filter "configurations:Debug"
-	defines {"WLFR_DEBUG", "_DEBUG"}
+	defines {"WLFR_DEBUG", "WLFR_ENABLE_ASSERTS"}
 	symbols "On"
 
 
 filter "configurations:Release"
-	defines {"WLFR_RELEASE", "NDEBUG"}
+	defines {"WLFR_RELEASE"}
 	optimize "On"
 
 
