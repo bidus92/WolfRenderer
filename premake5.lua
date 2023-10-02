@@ -114,6 +114,7 @@ filter "configurations:Release"
 filter "configurations:Dist"
 	defines "WLFR_DIST"
 	optimize "On"
+	buildoptions "/MD"
 
 
 
@@ -172,13 +173,14 @@ filter "system:windows"
 filter "configurations:Debug"
 	defines {"WLFR_DEBUG", "WLFR_ENABLE_ASSERTS"}
 	symbols "On"
-
+    buildoptions "/MDd"
 
 filter "configurations:Release"
 	defines {"WLFR_RELEASE"}
 	optimize "On"
-
+    buildoptions "/MD"
 
 filter "configurations:Dist"
 	defines "WLFR_DIST"
 	optimize "On"
+	buildoptions "/MD"

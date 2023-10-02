@@ -1,9 +1,13 @@
 #pragma once
 
 #include "core/core.h"
-#include "events/event.h"
-#include "events/ApplicationEvent.h"
+
 #include "Window.h"
+#include "core/LayerStack.h"
+#include "events/Event.h"
+#include "events/ApplicationEvent.h"
+
+
 
 namespace WolfRenderer
 {
@@ -18,12 +22,17 @@ namespace WolfRenderer
 		void run(); 
 
 		void onEvent(Event& e);
+
+		void pushLayer(Layer* layer);
+		void pushOverlay(Layer* overlay);
 		
 	private:
 		bool onWindowClosed(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
+
+		LayerStack m_LayerStack; 
 	};	
 		//TO BE DEFINED IN CLIENT (SANDBOX APP) 
 		Application* CreateApplication();

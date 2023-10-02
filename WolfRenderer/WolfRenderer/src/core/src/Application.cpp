@@ -22,6 +22,16 @@ namespace WolfRenderer
 
 	};
 
+	void Application::pushLayer(Layer* layer)
+	{
+		m_LayerStack.pushLayer(layer);
+	}
+
+	void Application::pushOverlay(Layer* overlay)
+	{
+		m_LayerStack.pushOverlay(overlay);
+	}
+
 	void Application::onEvent(Event& e)
 	{
 		EventDispatcher dispatcher(e);
@@ -29,6 +39,15 @@ namespace WolfRenderer
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_FN(onWindowClosed));
 
 		WLFR_CORE_TRACE("{0}", e);
+
+		//go backward through the layer stack and call onEvent()
+		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();)
+		{
+			//we break if the event is handled as to ensure that events below this do not receive the same event notification
+			(*--it)->onEvent(e);
+			if (e.m_Handled)
+				break; 
+		}
 	}
 
 
@@ -36,6 +55,10 @@ namespace WolfRenderer
 	{	
 		while (m_Running)
 		{
+			for (Layer* layer : m_LayerStack)
+			{
+				layer->onUpdate(); 
+			}
 			m_Window->onUpdate();
 		}
 

@@ -81,10 +81,10 @@ namespace WolfRenderer
 			{
 				return GetCategoryFlags() & category;
 			}
-
-		protected:
 			//sees if an event has been handled, this way the event doesn't transfer to other layers 
 			bool m_Handled = false;
+
+
 	};
 
 	//dispatch events based on type 
