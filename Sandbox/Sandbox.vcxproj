@@ -79,9 +79,10 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DEBUG;WLFR_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui\imgui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -96,12 +97,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui\imgui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -117,12 +119,13 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>WLFR_PLATFORM_WINDOWS;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\WolfRenderer\WolfRenderer\src;..\WolfRenderer\WolfRenderer\vendor\spdlog\include;..\WolfRenderer\WolfRenderer\vendor\Dear_ImGui\imgui;..\WolfRenderer\WolfRenderer\vendor\SDL3\include;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\build_config;..\WolfRenderer\WolfRenderer\vendor\SDL3\include\SDL3;src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>

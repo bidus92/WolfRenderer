@@ -7,7 +7,8 @@
 #include "events/Event.h"
 
 
-
+//TODO: implement Vulkan access in this window for Vulkan callback system and integrate
+//Vulkan debugger with our Log system!	
 
 namespace WolfRenderer
 {

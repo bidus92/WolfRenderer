@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DEBUG;WLFR_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui\imgui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;vendor\Vulkan\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -91,8 +91,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\SDL3\bin\Debug-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Debug-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\Vulkan\Lib;vendor\SDL3\bin\Debug-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Debug-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -105,7 +105,7 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui\imgui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;vendor\Vulkan\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -120,8 +120,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\SDL3\bin\Release-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Release-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\Vulkan\Lib;vendor\SDL3\bin\Release-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Release-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -134,13 +134,14 @@
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui\imgui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;vendor\Vulkan\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -148,8 +149,8 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <AdditionalLibraryDirectories>vendor\SDL3\bin\Dist-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Dist-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\Vulkan\Lib;vendor\SDL3\bin\Dist-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Dist-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <ImportLibrary>..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
@@ -157,12 +158,17 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\core\Layer.h" />
-    <ClInclude Include="src\core\LayerStack.h" />
+    <ClInclude Include="src\events\VulkanEvent.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_Devices.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_Debugger.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WolfRenderer.h" />
     <ClInclude Include="src\core\Application.h" />
     <ClInclude Include="src\core\EntryPoint.h" />
+    <ClInclude Include="src\core\Layer.h" />
+    <ClInclude Include="src\core\LayerStack.h" />
     <ClInclude Include="src\core\Log.h" />
     <ClInclude Include="src\core\core.h" />
     <ClInclude Include="src\events\ApplicationEvent.h" />
@@ -171,6 +177,7 @@
     <ClInclude Include="src\events\MouseEvent.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\renderer\Vulkan\Vulkan.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp" />
@@ -181,10 +188,16 @@
     <ClCompile Include="src\events\src\Event.cpp" />
     <ClCompile Include="src\events\src\KeyEvent.cpp" />
     <ClCompile Include="src\events\src\MouseEvent.cpp" />
+    <ClCompile Include="src\events\src\VulkanEvent.cpp" />
     <ClCompile Include="src\pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_Devices.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\Vulkan.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_Debugger.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj">

@@ -27,6 +27,7 @@ namespace WolfRenderer
 		void pushOverlay(Layer* overlay);
 		
 	private:
+		//event functions must be bools to indicate action be taken by the Event Dispatcher
 		bool onWindowClosed(WindowCloseEvent& e);
 
 		std::unique_ptr<Window> m_Window;

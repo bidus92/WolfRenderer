@@ -6,6 +6,9 @@
 #include "events/MouseEvent.h"
 #include "SDL3/SDL_error.h"
 #include "SDL3/SDL_thread.h"
+
+#include "renderer/Vulkan/Vulkan.h"
+#include "renderer/Vulkan/v_Debugger/v_Debugger.h"
 namespace WolfRenderer
 {
 	static bool s_SDLInitialized = false; 
@@ -49,7 +52,6 @@ namespace WolfRenderer
 			WindowData& data = *(WindowData*)SDL_GetWindowData(m_Window, "Window Props");
 			WindowCloseEvent event; 
 			data.EventCallback(event);
-			//SDL_DestroyWindow(m_Window);
 	}
 
 	
@@ -161,8 +163,13 @@ namespace WolfRenderer
 			s_SDLInitialized = true; 
 		}
 		//TODO: set last parameter of SDL_CreateWindow to work with Vulkan interfaces...more on that later
-		m_Window = SDL_CreateWindow(m_Data.Title.c_str(), m_Data.Width, m_Data.Height, SDL_WINDOW_RESIZABLE);
+		//implementation of Vulkan ot be done
+		m_Window = SDL_CreateWindow(m_Data.Title.c_str(), m_Data.Width, m_Data.Height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
 		
+		//creates our vulkan instance after creation of SDL window
+		Vulkan::createInstance(); 
+		
+		//pointer set to our window data to be used in callback functions as needed
 		SDL_SetWindowData(m_Window, "Window Props", &m_Data); 
 		setVSync(true);
 	}
@@ -172,6 +179,7 @@ namespace WolfRenderer
 
 	void WindowsWindow::Shutdown()
 	{
+		Vulkan::closeVulkan(); 
 		SDL_DestroyWindow(m_Window);
 	}
 

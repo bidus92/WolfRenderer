@@ -50,6 +50,9 @@ namespace WolfRenderer
 			unsigned int Height; 
 
 			bool vSync; 
+
+			//TODO: Change EventCallbackFn to std::vector to implement multiple callback functions and potential for
+			//multithreaded SYNC! 
 			EventCallbackFn EventCallback; 
 		};
 

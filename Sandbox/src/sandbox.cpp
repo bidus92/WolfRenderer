@@ -29,7 +29,8 @@ class Sandbox : public WolfRenderer::Application
 
 		Sandbox()
 		{
-			pushLayer(new ExampleLayer());
+			//commented out for now to test out Vulkan initialization
+			//pushLayer(new ExampleLayer());
 		}
 
 		~Sandbox()

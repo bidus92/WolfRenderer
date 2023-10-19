@@ -14,10 +14,10 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 --Include directory table
 IncludeDir = {}
 
-IncludeDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Dear_ImGui"
+IncludeDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui"
 IncludeDir["SDL3"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/SDL3/include"
 IncludeDir["spdlog"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/spdlog/include"
-
+IncludeDir["Vulkan"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Vulkan/Include"
 
 --Library directory table
 LibraryDir = {}
@@ -25,6 +25,7 @@ LibraryDir = {}
 LibraryDir["SDL3"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/SDL3/bin/" .. outputdir .. "/SDL3"
 LibraryDir["Dear_ImGui"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui/bin/" .. outputdir .. "Dear_ImGui"
 LibraryDir["WolfRenderer"] = "%{wks.location}/bin/" .. outputdir .. "/WolfRenderer"
+LibraryDir["Vulkan"] = "%{wks.location}/WolfRenderer/WolfRenderer/vendor/Vulkan/Lib"
 
 include "WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui"
 
@@ -60,11 +61,13 @@ project "WolfRenderer"
 		"%{IncludeDir.Dear_ImGui}",
 		"%{IncludeDir.SDL3}",
 		"%{IncludeDir.SDL3}/build_config",
-		"%{IncludeDir.SDL3}/SDL3"
+		"%{IncludeDir.SDL3}/SDL3",
+		"%{IncludeDir.Vulkan}"
 	}
 
 	libdirs
 	{
+		"%{LibraryDir.Vulkan}",
 		"%{LibraryDir.SDL3}",
 		"%{LibraryDir.Dear_ImGui}"
 	}
@@ -73,6 +76,7 @@ project "WolfRenderer"
 	{
 		"Dear_ImGui",
 		"SDL3-static",
+		"vulkan-1.lib",
 		"winmm.lib",
 		"version.lib",
 		"imm32.lib",

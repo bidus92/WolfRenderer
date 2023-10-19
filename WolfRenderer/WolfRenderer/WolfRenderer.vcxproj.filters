@@ -19,6 +19,12 @@
     <Filter Include="platform\Windows">
       <UniqueIdentifier>{84B77CA1-70B0-9BF3-99E2-8078853A7BFF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="renderer">
+      <UniqueIdentifier>{9C6AA017-8837-FB22-B150-E9CA9D7C30B1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer\Vulkan">
+      <UniqueIdentifier>{9CF0F170-087C-5F35-118D-E2297D97BB35}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Window.h" />
@@ -27,6 +33,12 @@
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\EntryPoint.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\Layer.h">
+      <Filter>core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\core\LayerStack.h">
       <Filter>core</Filter>
     </ClInclude>
     <ClInclude Include="src\core\Log.h">
@@ -51,11 +63,23 @@
     <ClInclude Include="src\platform\Windows\WindowsWindow.h">
       <Filter>platform\Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\core\Layer.h" />
-    <ClInclude Include="src\core\LayerStack.h" />
+    <ClInclude Include="src\renderer\Vulkan\Vulkan.h">
+      <Filter>renderer\Vulkan</Filter>
+    </ClInclude>
+    <ClInclude Include="src\events\VulkanEvent.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_Debugger.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_Devices.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\src\Layer.cpp">
+      <Filter>core\src</Filter>
+    </ClCompile>
+    <ClCompile Include="src\core\src\LayerStack.cpp">
       <Filter>core\src</Filter>
     </ClCompile>
     <ClCompile Include="src\core\src\Log.cpp">
@@ -77,7 +101,13 @@
     <ClCompile Include="src\platform\Windows\WindowsWindow.cpp">
       <Filter>platform\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\core\src\Layer.cpp" />
-    <ClCompile Include="src\core\src\LayerStack.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\Vulkan.cpp">
+      <Filter>renderer\Vulkan</Filter>
+    </ClCompile>
+    <ClCompile Include="src\events\src\VulkanEvent.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_Debugger.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_Devices.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.cpp" />
   </ItemGroup>
 </Project>
