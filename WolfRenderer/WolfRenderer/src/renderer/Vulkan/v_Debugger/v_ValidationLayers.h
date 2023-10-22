@@ -19,8 +19,7 @@ namespace WolfRenderer
 
 	public:	
 
-
-		unsigned int getEnabledLayerCount() { return validationLayers.size(); }
+		uint32_t getEnabledLayerCount() { return validationLayers.size(); }
 		const char** ptrToValidationLayers() { return validationLayers.data(); }
 
 		bool enableLayers;

@@ -15,7 +15,7 @@ namespace WolfRenderer
 	v_ValidationLayers::v_ValidationLayers()
 	{
 		this->enableLayers = true;
-		this->validationLayers = { "VK_LAYER_KHRONOS_validation" };
+		this->validationLayers.push_back("VK_LAYER_KHRONOS_validation");
 		checkSupport();
 	}
 #else

@@ -166,8 +166,8 @@ namespace WolfRenderer
 		//implementation of Vulkan ot be done
 		m_Window = SDL_CreateWindow(m_Data.Title.c_str(), m_Data.Width, m_Data.Height, SDL_WINDOW_RESIZABLE | SDL_WINDOW_VULKAN);
 		
-		//creates our vulkan instance after creation of SDL window
-		Vulkan::createInstance(); 
+		//creates our vulkan renderer after creation of SDL window
+		Vulkan::createVulkan(m_Window); 
 		
 		//pointer set to our window data to be used in callback functions as needed
 		SDL_SetWindowData(m_Window, "Window Props", &m_Data); 

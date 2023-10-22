@@ -14,12 +14,12 @@ namespace WolfRenderer
 		
 	}
 
-	void v_Devices::initialize(VkInstance instance, v_Debugger theDebugger)
+	void v_Devices::initialize(VkInstance instance, v_Debugger& theDebugger, VkSurfaceKHR theSurface)
 	{
 		this->availablePhysicalDevices = locatePhysicalDevices(instance);
-		selectPhysicalDevice(); 
-		queueFamilies.acquire(this->physicalDevice);
-		createLogicalDevice(theDebugger);
+		this->selectPhysicalDevice(); 
+		this->queueFamilies.acquire(this->physicalDevice, theSurface);
+		this->createLogicalDevice(theDebugger);
 		std::cout << "Physical and Logical Devices successfuly set up!\n";
 	}
 
@@ -119,11 +119,13 @@ namespace WolfRenderer
 	{
 		VkDeviceCreateInfo createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO; 
+		 
 		//TODO: implement getter for queueCreateInfo struct
-		createInfo.pQueueCreateInfos = queueFamilies.ptrToQueueCreateInfo();
-		createInfo.queueCreateInfoCount = 1;
-		createInfo.pEnabledFeatures = &physicalDeviceFeatures;
-
+		createInfo.pQueueCreateInfos = this->queueFamilies.ptrToQueueCreateInfo();
+		createInfo.queueCreateInfoCount = this->queueFamilies.getQueueCreateInfoSize();//static_cast<uint32_t>(this->queueFamilies.getQueueCreateInfos().size());
+		createInfo.pEnabledFeatures = &this->physicalDeviceFeatures;
+		createInfo.enabledExtensionCount = 0; 
+		
 		if (theDebugger.isValidationEnabled())
 		{
 			createInfo.enabledLayerCount = theDebugger.getEnabledLayerCount();
@@ -134,10 +136,17 @@ namespace WolfRenderer
 			createInfo.enabledLayerCount = 0; 
 		}
 
-		if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &logicalDevice) != VK_SUCCESS)
+		if (vkCreateDevice(this->physicalDevice, &createInfo, nullptr, &this->logicalDevice) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Unable to create Vulkan Logical Device!");
 		}
+		else
+		{
+			std::cout << "Vulkan logical device successfully created!\n";
+		}
+
+		queueFamilies.getGraphicsQueue(logicalDevice);
+		queueFamilies.getPresentationQueue(logicalDevice);
 	}
 
 	void v_Devices::destroyLogicalDevice()

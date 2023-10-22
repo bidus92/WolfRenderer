@@ -4,6 +4,7 @@
 
 #include "v_Debugger/v_Debugger.h"
 #include "v_Devices/v_Devices.h"
+#include "v_Surface/v_Surface.h"
 
 #include "events/ApplicationEvent.h"
 #include "core/core.h"
@@ -14,6 +15,7 @@ namespace WolfRenderer
 {
 	class WLFR_API Vulkan
 	{
+		friend class WindowsWindow;
 		public:
 
 			static Vulkan& Get();
@@ -22,7 +24,7 @@ namespace WolfRenderer
 			Vulkan operator=(const Vulkan& other) = delete;
 
 			//public function to initialize our instance 
-			static void createInstance();
+			static void createVulkan(SDL_Window* window);
 
 			//public function to destroy our Vulkan instance
 			static void closeVulkan();
@@ -42,7 +44,7 @@ namespace WolfRenderer
 			Vulkan& operator=(Vulkan&) = delete;
 			Vulkan& operator=(Vulkan&&) = delete;
 			//initializes vulkan
-			void init_Vulkan();
+			void init_Vulkan(SDL_Window* window);
 
 			//destroys the Vulkan instance
 			void destroy_Vulkan();
@@ -76,6 +78,7 @@ namespace WolfRenderer
 		private:
 			v_Debugger debugger;
 			v_Devices devices;
+			v_Surface winSurface; 
 
 	};
 }

@@ -4,10 +4,11 @@
 #include "string.h"
 
 #include "core/core.h"
-
+#include "platform/Windows/WindowsWindow.h"
 
 namespace WolfRenderer
 {
+	
 	Vulkan::Vulkan()
 	{
 		this->m_AvailableExtensions = getAvailableExtensions();
@@ -60,7 +61,7 @@ namespace WolfRenderer
 			const char* name = m_AvailableExtensions[i].extensionName;
 			extensionNames.push_back(name);
 		}
-
+		//use these for SDL_Vulkan_CreateSurface
 		WLFR_CORE_ASSERT(SDL_Vulkan_GetInstanceExtensions(&m_RequiredExtensionCount, m_RequiredExtensionNames.data()), "Failed to get required Vulkan extensions for SDL");
 		
 
@@ -86,12 +87,12 @@ namespace WolfRenderer
 	}
 
 
-	void Vulkan::createInstance()
+	void Vulkan::createVulkan(SDL_Window* window)
 	{
-		Get().init_Vulkan();
+		Get().init_Vulkan(window);
 	}
 
-	void Vulkan::init_Vulkan()
+	void Vulkan::init_Vulkan(SDL_Window* window)
 	{
 		VkApplicationInfo appInfo{};
 		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -132,17 +133,20 @@ namespace WolfRenderer
 			std::cout << "Vulkan initialization successful!\n";
 		}
 
-		if (this->debugger.enableLayers)
+		if (debugger.enableLayers)
 		{
 			std::cout << "Validation Layers Enabled!\n";
-			this->debugger.setupDebugger(this->m_Instance, debugger.getDebuggerCreateInfo(), debugger.getDebugMessengerPtr());
+			debugger.setupDebugger(m_Instance, debugger.getDebuggerCreateInfo(), debugger.getDebugMessengerPtr());
 		}
 		else
 		{
 			std::cout << "Validation Layers Disabled!\n";
 		}
 
-		devices.initialize(m_Instance, debugger);
+		winSurface.createWinSurface(window, this->m_Instance, winSurface.getWinSurface());
+
+		devices.initialize(this->m_Instance, this->debugger, this->winSurface.getWinSurface());
+		
 	}
 
 	void Vulkan::closeVulkan()
@@ -155,6 +159,7 @@ namespace WolfRenderer
 	{
 		devices.destroyLogicalDevice(); 
 		debugger.destroyDebugger(m_Instance);
+		winSurface.destroyWinSurface(m_Instance, winSurface.getWinSurface()); 
 		vkDestroyInstance(m_Instance, nullptr);
 		std::cout << "Vulkan Instance successfully destroyed!\n";
 	}

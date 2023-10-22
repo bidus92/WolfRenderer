@@ -5,17 +5,18 @@
 #include "vulkan/vulkan.h"
 #include "v_QueueFamilies/v_QueueFamilies.h"
 #include "../v_Debugger/v_Debugger.h"
-
+#include "../v_Surface/v_Surface.h"
 
 namespace WolfRenderer
 {
 	class WLFR_API v_Devices
 	{
+		
 	public:
 		v_Devices(); 
 		~v_Devices(); 
 		void selectPhysicalDevice();
-		void initialize (VkInstance instance, v_Debugger theDebugger);
+		void initialize (VkInstance instance, v_Debugger& theDebugger, VkSurfaceKHR theSurface);
 		void destroyLogicalDevice();
 
 //**Physical Device members and functions
@@ -33,11 +34,14 @@ namespace WolfRenderer
 		int ratePhysicalDevice(VkPhysicalDevice device);
 		bool isDeviceSuitable(VkPhysicalDevice device);
 
+
 //**Logical Device members and functions
 	private:
 		VkDevice logicalDevice = VK_NULL_HANDLE;
+		VkDevice getLogicalDevice(){ return logicalDevice; }
 	private:
-		void createLogicalDevice(v_Debugger& theDebugger); 
+		void createLogicalDevice(v_Debugger& theDebugger);
+
 
 		
 		

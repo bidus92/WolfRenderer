@@ -12,6 +12,9 @@ namespace WolfRenderer
 	struct QueueFamilyIndices
 	{
 		std::optional<uint32_t> graphicsFamily;
+		std::optional<uint32_t> presentFamily; 
+		//std::optional<uint32_t> transferFamily; 
+		//std::optional<uint32_t> computeFamily; 
 	};
 
 	class WLFR_API v_QueueFamilies
@@ -19,24 +22,28 @@ namespace WolfRenderer
 	public:
 		v_QueueFamilies(); 
 		~v_QueueFamilies(); 
-		void acquire(VkPhysicalDevice device);
-		VkDeviceQueueCreateInfo getQueueCreateInfo() { return queueCreateInfo; }
-		VkDeviceQueueCreateInfo* ptrToQueueCreateInfo() { return &queueCreateInfo; }
+		void acquire(VkPhysicalDevice device, VkSurfaceKHR surface);
+		uint32_t getQueueCreateInfoSize() { return queueCreateInfos.size(); }
+		VkDeviceQueueCreateInfo* ptrToQueueCreateInfo() { return queueCreateInfos.data(); }
 		void retrieveQueueHandle(VkDevice device, uint32_t queueIndex, VkQueue queueHandle); 
 
+		void getGraphicsQueue(VkDevice logicalDevice);
+		void getPresentationQueue(VkDevice logicalDevice);
 
 	private:
 		std::vector<VkQueueFamilyProperties> queueFamilyProperties; 
 		QueueFamilyIndices indices;
-		VkDeviceQueueCreateInfo queueCreateInfo; 
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+
 		VkQueue graphicsQueue; 
+		VkQueue presentQueue;
 
 	private:
 		std::vector<VkQueueFamilyProperties> getQueueFamilyProperties(VkPhysicalDevice device);
         bool queueFamiliesFound(); 
-        QueueFamilyIndices findQueueFamilies();
-		VkDeviceQueueCreateInfo inputQueueCreateInfo();
-		
+        QueueFamilyIndices findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface);
+		std::vector<VkDeviceQueueCreateInfo> inputQueueCreateInfos();
+		float queuePriority = 1.f;
 	};
 }
 

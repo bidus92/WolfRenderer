@@ -1,6 +1,9 @@
 #include "pch.h"
 
 #include "v_QueueFamilies.h"
+#include <set>
+
+
 #include "../v_Devices.h"
 
 
@@ -17,11 +20,11 @@ namespace WolfRenderer
 
 	}
 
-	void v_QueueFamilies::acquire(VkPhysicalDevice device)
+	void v_QueueFamilies::acquire(VkPhysicalDevice device, VkSurfaceKHR surface)
 	{
 		this->queueFamilyProperties = getQueueFamilyProperties(device);
-		this->indices = findQueueFamilies();
-		this->queueCreateInfo = inputQueueCreateInfo(); 
+		this->indices = findQueueFamilies(device, surface);
+		this->queueCreateInfos = inputQueueCreateInfos(); 
 		std::cout << "Queue families acquired!\n";
 	}
 
@@ -44,17 +47,29 @@ namespace WolfRenderer
 
 	bool v_QueueFamilies::queueFamiliesFound()
 	{
-		return indices.graphicsFamily.has_value(); 
+		return indices.graphicsFamily.has_value() && indices.presentFamily.has_value(); 
 	}
 
-	QueueFamilyIndices v_QueueFamilies::findQueueFamilies()
+	QueueFamilyIndices v_QueueFamilies::findQueueFamilies(VkPhysicalDevice device, VkSurfaceKHR surface)
 	{
 		for (int i = 0; i < queueFamilyProperties.size(); i++)
 		{
-			if (queueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT && !queueFamiliesFound())
+			//Find Graphics Queue Family Index
+			if (queueFamilyProperties[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
 			{
 				indices.graphicsFamily = i; 
 			}
+
+			//Find Presentation Queue Family Index
+			VkBool32 presentSupport = false; 
+			vkGetPhysicalDeviceSurfaceSupportKHR(device, i, surface, &presentSupport);
+			
+			if (presentSupport)
+			{
+				indices.presentFamily = i; 
+			}
+
+			//break the loop if all are found
 			if (queueFamiliesFound())
 			{
 				break; 
@@ -67,22 +82,41 @@ namespace WolfRenderer
 		}
 
 		return indices; 
+	}	
+
+	std::vector<VkDeviceQueueCreateInfo> v_QueueFamilies::inputQueueCreateInfos()
+	{
+		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
+
+		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
+
+		for (uint32_t queueFamily : uniqueQueueFamilies)
+		{
+			VkDeviceQueueCreateInfo queueCreateInfo; 
+
+			queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO; 
+			//TODO: implement functionality to create any type of queue! (for now only utilizing graphics)
+			queueCreateInfo.queueFamilyIndex = queueFamily; 
+			//NOTE: Queue Count limited because we can implement multiple threads with command buffers
+			//and submit them all at once to the main thread! 
+			queueCreateInfo.queueCount = 1;
+			queueCreateInfo.flags = 0; 
+			queueCreateInfo.pNext = 0; 
+			queueCreateInfo.pQueuePriorities = &this->queuePriority; 
+
+			queueCreateInfos.push_back(queueCreateInfo);
+		}
+
+		return queueCreateInfos; 
+
 	}
 
-	VkDeviceQueueCreateInfo v_QueueFamilies::inputQueueCreateInfo()
+	void v_QueueFamilies::getGraphicsQueue(VkDevice logicalDevice)
 	{
-		VkDeviceQueueCreateInfo queueCreateInfo{};
-		queueCreateInfo.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO; 
-		//TODO: implement functionality to create any type of queue! (for now only utilizing graphics)
-		queueCreateInfo.queueFamilyIndex = indices.graphicsFamily.value(); 
-		//NOTE: Queue Count limited because we can implement multiple threads with command buffers
-		//and submit them all at once to the main thread! 
-		queueCreateInfo.queueCount = 1;
-
-		float queuePriority = 1.f; 
-		queueCreateInfo.pQueuePriorities = &queuePriority; 
-
-		return queueCreateInfo; 
-
+		vkGetDeviceQueue(logicalDevice, indices.graphicsFamily.value(), 0, &this->graphicsQueue);
+	}
+	void v_QueueFamilies::getPresentationQueue(VkDevice logicalDevice)
+	{
+		vkGetDeviceQueue(logicalDevice, indices.presentFamily.value(), 0, &this->presentQueue);
 	}
 }
