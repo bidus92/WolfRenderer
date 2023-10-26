@@ -72,6 +72,8 @@
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_Devices.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Surface\v_Surface.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews\v_ImageViews.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
@@ -111,5 +113,7 @@
     <ClCompile Include="src\renderer\Vulkan\v_Devices\v_Devices.cpp" />
     <ClCompile Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.cpp" />
     <ClCompile Include="src\renderer\Vulkan\v_Surface\v_Surface.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews\v_ImageViews.cpp" />
   </ItemGroup>
 </Project>

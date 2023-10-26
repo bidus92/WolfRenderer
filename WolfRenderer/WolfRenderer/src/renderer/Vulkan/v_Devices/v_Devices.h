@@ -6,6 +6,7 @@
 #include "v_QueueFamilies/v_QueueFamilies.h"
 #include "../v_Debugger/v_Debugger.h"
 #include "../v_Surface/v_Surface.h"
+#include "v_SwapChain/v_SwapChain.h"
 
 namespace WolfRenderer
 {
@@ -16,7 +17,7 @@ namespace WolfRenderer
 		v_Devices(); 
 		~v_Devices(); 
 		void selectPhysicalDevice();
-		void initialize (VkInstance instance, v_Debugger& theDebugger, VkSurfaceKHR theSurface);
+		void initialize (VkInstance instance, SDL_Window* window, v_Debugger& theDebugger, VkSurfaceKHR theSurface);
 		void destroyLogicalDevice();
 
 //**Physical Device members and functions
@@ -27,12 +28,17 @@ namespace WolfRenderer
 		VkPhysicalDeviceProperties physicalDeviceProperties; 
 		VkPhysicalDeviceFeatures physicalDeviceFeatures; 
 
-		v_QueueFamilies queueFamilies; 
 
 	private:
 		std::vector<VkPhysicalDevice> locatePhysicalDevices(VkInstance instance);
 		int ratePhysicalDevice(VkPhysicalDevice device);
 		bool isDeviceSuitable(VkPhysicalDevice device);
+
+
+//**Misc. classes to interact with devices
+	private:
+		v_QueueFamilies queueFamilies; 
+		v_SwapChain swapChain; 
 
 
 //**Logical Device members and functions

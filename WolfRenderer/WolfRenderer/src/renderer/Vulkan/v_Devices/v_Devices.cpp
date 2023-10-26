@@ -14,13 +14,15 @@ namespace WolfRenderer
 		
 	}
 
-	void v_Devices::initialize(VkInstance instance, v_Debugger& theDebugger, VkSurfaceKHR theSurface)
+	void v_Devices::initialize(VkInstance instance, SDL_Window* window, v_Debugger& theDebugger, VkSurfaceKHR theSurface)
 	{
 		this->availablePhysicalDevices = locatePhysicalDevices(instance);
 		this->selectPhysicalDevice(); 
 		this->queueFamilies.acquire(this->physicalDevice, theSurface);
+		this->swapChain.validateAndPopulate(this->physicalDevice, window, theSurface);
 		this->createLogicalDevice(theDebugger);
 		std::cout << "Physical and Logical Devices successfuly set up!\n";
+		this->swapChain.createSwapChainAndImageViews(logicalDevice, theSurface, queueFamilies);
 	}
 
 
@@ -124,7 +126,8 @@ namespace WolfRenderer
 		createInfo.pQueueCreateInfos = this->queueFamilies.ptrToQueueCreateInfo();
 		createInfo.queueCreateInfoCount = this->queueFamilies.getQueueCreateInfoSize();//static_cast<uint32_t>(this->queueFamilies.getQueueCreateInfos().size());
 		createInfo.pEnabledFeatures = &this->physicalDeviceFeatures;
-		createInfo.enabledExtensionCount = 0; 
+		createInfo.enabledExtensionCount = this->swapChain.getRequiredSwapChainExtensions().size();
+		createInfo.ppEnabledExtensionNames = this->swapChain.ptrToRequiredSwapChainExtensions();
 		
 		if (theDebugger.isValidationEnabled())
 		{
@@ -151,6 +154,7 @@ namespace WolfRenderer
 
 	void v_Devices::destroyLogicalDevice()
 	{
+		swapChain.destroySwapchain(logicalDevice); 
 		vkDestroyDevice(logicalDevice, nullptr);
 		std::cout << "Logical device successfully destroyed!\n";
 	}

@@ -145,7 +145,7 @@ namespace WolfRenderer
 
 		winSurface.createWinSurface(window, this->m_Instance, winSurface.getWinSurface());
 
-		devices.initialize(this->m_Instance, this->debugger, this->winSurface.getWinSurface());
+		devices.initialize(this->m_Instance, window, this->debugger, this->winSurface.getWinSurface());
 		
 	}
 

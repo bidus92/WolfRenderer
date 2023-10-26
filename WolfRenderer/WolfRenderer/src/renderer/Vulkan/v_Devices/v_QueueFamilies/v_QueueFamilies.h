@@ -6,9 +6,9 @@
 
 
 
-
 namespace WolfRenderer
 {
+
 	struct QueueFamilyIndices
 	{
 		std::optional<uint32_t> graphicsFamily;
@@ -22,11 +22,15 @@ namespace WolfRenderer
 	public:
 		v_QueueFamilies(); 
 		~v_QueueFamilies(); 
-		void acquire(VkPhysicalDevice device, VkSurfaceKHR surface);
+		void acquire(const VkPhysicalDevice& device, const VkSurfaceKHR& surface);
+
+		void retrieveQueueHandle(const VkDevice& device, const uint32_t& queueIndex, VkQueue queueHandle); 
+
+
 		uint32_t getQueueCreateInfoSize() { return queueCreateInfos.size(); }
 		VkDeviceQueueCreateInfo* ptrToQueueCreateInfo() { return queueCreateInfos.data(); }
-		void retrieveQueueHandle(VkDevice device, uint32_t queueIndex, VkQueue queueHandle); 
-
+		QueueFamilyIndices getQueueFamilyIndices() { return indices; }
+		QueueFamilyIndices* ptrToQueueFamilyIndices() { return &indices; }
 		void getGraphicsQueue(VkDevice logicalDevice);
 		void getPresentationQueue(VkDevice logicalDevice);
 

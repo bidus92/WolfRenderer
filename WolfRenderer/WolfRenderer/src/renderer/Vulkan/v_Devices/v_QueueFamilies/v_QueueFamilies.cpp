@@ -20,7 +20,7 @@ namespace WolfRenderer
 
 	}
 
-	void v_QueueFamilies::acquire(VkPhysicalDevice device, VkSurfaceKHR surface)
+	void v_QueueFamilies::acquire(const VkPhysicalDevice& device, const VkSurfaceKHR& surface)
 	{
 		this->queueFamilyProperties = getQueueFamilyProperties(device);
 		this->indices = findQueueFamilies(device, surface);
@@ -28,7 +28,7 @@ namespace WolfRenderer
 		std::cout << "Queue families acquired!\n";
 	}
 
-	void v_QueueFamilies::retrieveQueueHandle(VkDevice device, uint32_t queueIndex, VkQueue queueHandle)
+	void v_QueueFamilies::retrieveQueueHandle(const VkDevice& device, const uint32_t& queueIndex, VkQueue queueHandle)
 	{
 		vkGetDeviceQueue(device, queueIndex, 0, &queueHandle);
 	}
