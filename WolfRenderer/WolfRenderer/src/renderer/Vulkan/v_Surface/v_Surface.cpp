@@ -25,7 +25,7 @@ namespace WolfRenderer
 		}
 		else
 		{
-			std::cout << "Window surface creation successful!\n";
+			std::cout << "Vulkan window surface creation successful!\n";
 		}
 	}
 

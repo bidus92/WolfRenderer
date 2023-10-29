@@ -162,7 +162,6 @@ project "Sandbox"
 
 filter "system:windows"
 	cppdialect "C++20"
-	--staticruntime "On"
 	systemversion "latest"
 
 
