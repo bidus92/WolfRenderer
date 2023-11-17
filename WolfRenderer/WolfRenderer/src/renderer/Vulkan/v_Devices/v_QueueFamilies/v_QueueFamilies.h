@@ -31,9 +31,16 @@ namespace WolfRenderer
 		VkDeviceQueueCreateInfo* ptrToQueueCreateInfo() { return queueCreateInfos.data(); }
 		QueueFamilyIndices getQueueFamilyIndices() { return indices; }
 		QueueFamilyIndices* ptrToQueueFamilyIndices() { return &indices; }
-		void getGraphicsQueue(VkDevice logicalDevice);
-		void getPresentationQueue(VkDevice logicalDevice);
+		void getGraphicsQueue(const VkDevice& logicalDevice);
+		void getPresentationQueue(const VkDevice& logicalDevice);
 
+	public:
+		VkQueue getGraphicsQueueHandle() const { return graphicsQueue; }
+		VkQueue getPresentQueueHandle() const { return presentQueue; }
+
+	public:
+		void submitQueue(const VkQueue& queue, const VkSemaphore& waitSemaphore, const VkSemaphore& signalSemaphore, const VkFence& fence, const VkCommandBuffer* commandBuffer);
+		void presentTheQueue(const VkSemaphore& waitSemaphore, const VkQueue& presentationQueue, const VkSwapchainKHR& swapChain, uint32_t imageIndex);
 	private:
 		std::vector<VkQueueFamilyProperties> queueFamilyProperties; 
 		QueueFamilyIndices indices;

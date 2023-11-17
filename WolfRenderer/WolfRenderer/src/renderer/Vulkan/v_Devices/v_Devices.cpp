@@ -16,15 +16,31 @@ namespace WolfRenderer
 
 	void v_Devices::initialize(VkInstance instance, SDL_Window* window, v_Debugger& theDebugger, VkSurfaceKHR theSurface)
 	{
-		this->availablePhysicalDevices = locatePhysicalDevices(instance);
-		this->selectPhysicalDevice(); 
-		this->queueFamilies.acquire(this->physicalDevice, theSurface);
-		this->swapChain.validateAndPopulate(this->physicalDevice, window, theSurface);
-		this->createLogicalDevice(theDebugger);
+		availablePhysicalDevices = locatePhysicalDevices(instance);
+		selectPhysicalDevice(); 
+		queueFamilies.acquire(this->physicalDevice, theSurface);
+		swapChain.validateAndPopulate(this->physicalDevice, window, theSurface);
+		createLogicalDevice(theDebugger);
 		std::cout << "Physical and Logical Devices successfuly set up!\n";
-		this->swapChain.createSwapChainAndImageViews(logicalDevice, theSurface, queueFamilies);
+
+
+		//TODO: set these to be their own functionality outside of device initalization 
+		swapChain.createSwapChain(logicalDevice, theSurface, queueFamilies);
+		imageViews.createImageViews(logicalDevice, swapChain.getSwapChainImages(), swapChain.getSurfaceFormat());
+		graphicsPipeline.createGraphicsPipeline(logicalDevice, swapChain);
+		framebuffer.createFramebuffers(logicalDevice, imageViews.getImageViews(), swapChain.getImageExtentWidth(), swapChain.getImageExtentHeight(), graphicsPipeline.getRenderPass());
+		commandPool.createCommandPool(logicalDevice, queueFamilies.getQueueFamilyIndices());
+
+		commandBuffer.createCommandBuffer(logicalDevice, commandPool.getCommandPool()); 
+
+		syncObjects.createSyncObjects(logicalDevice); 
 	}
 
+	void v_Devices::draw(const uint32_t& imageIndex, int& currentFrame)
+	{
+			queueFamilies.submitQueue(queueFamilies.getGraphicsQueueHandle(), syncObjects.getImageSemaphore(currentFrame), syncObjects.getRenderFinishedSemaphore(currentFrame), syncObjects.getInFlightFence(currentFrame), commandBuffer.getCommandBufferPtr(currentFrame));
+			queueFamilies.presentTheQueue(syncObjects.getImageSemaphore(currentFrame), queueFamilies.getPresentQueueHandle(), swapChain.getSwapchainHandle(), imageIndex);
+	}
 
 	v_Devices::~v_Devices()
 	{
@@ -123,11 +139,11 @@ namespace WolfRenderer
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO; 
 		 
 		//TODO: implement getter for queueCreateInfo struct
-		createInfo.pQueueCreateInfos = this->queueFamilies.ptrToQueueCreateInfo();
-		createInfo.queueCreateInfoCount = this->queueFamilies.getQueueCreateInfoSize();//static_cast<uint32_t>(this->queueFamilies.getQueueCreateInfos().size());
-		createInfo.pEnabledFeatures = &this->physicalDeviceFeatures;
-		createInfo.enabledExtensionCount = this->swapChain.getRequiredSwapChainExtensions().size();
-		createInfo.ppEnabledExtensionNames = this->swapChain.ptrToRequiredSwapChainExtensions();
+		createInfo.pQueueCreateInfos = queueFamilies.ptrToQueueCreateInfo();
+		createInfo.queueCreateInfoCount = queueFamilies.getQueueCreateInfoSize();//static_cast<uint32_t>(this->queueFamilies.getQueueCreateInfos().size());
+		createInfo.pEnabledFeatures = &physicalDeviceFeatures;
+		createInfo.enabledExtensionCount = swapChain.getRequiredSwapChainExtensions().size();
+		createInfo.ppEnabledExtensionNames = swapChain.ptrToRequiredSwapChainExtensions();
 		
 		if (theDebugger.isValidationEnabled())
 		{
@@ -139,7 +155,7 @@ namespace WolfRenderer
 			createInfo.enabledLayerCount = 0; 
 		}
 
-		if (vkCreateDevice(this->physicalDevice, &createInfo, nullptr, &this->logicalDevice) != VK_SUCCESS)
+			if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &logicalDevice) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Unable to create Vulkan Logical Device!");
 		}
@@ -154,6 +170,11 @@ namespace WolfRenderer
 
 	void v_Devices::destroyLogicalDevice()
 	{
+		syncObjects.destroySyncObjects(logicalDevice); 
+		commandPool.destroyCommandPool(logicalDevice); 
+		framebuffer.destroyFramebuffers(logicalDevice); 
+		graphicsPipeline.destroyPipeline(logicalDevice);
+		imageViews.destroyImageViews(logicalDevice); 
 		swapChain.destroySwapchain(logicalDevice); 
 		vkDestroyDevice(logicalDevice, nullptr);
 		std::cout << "Logical device successfully destroyed!\n";

@@ -2,7 +2,8 @@
 #include "vulkan/vulkan.h"
 #include "SDL3/SDL.h"
 #include "../v_QueueFamilies/v_QueueFamilies.h"
-#include "v_ImageViews/v_ImageViews.h"
+#include "../v_ImageViews/v_ImageViews.h"
+#include "../v_Framebuffer/v_Framebuffer.h"
 
 
 namespace WolfRenderer
@@ -21,11 +22,33 @@ namespace WolfRenderer
 		~v_SwapChain();
 		void validateAndPopulate(const VkPhysicalDevice& device, SDL_Window* window, const VkSurfaceKHR& surface);
 		//NOTE: add queueFamilyIndices argument to get necessary details
-		void createSwapChainAndImageViews(const VkDevice& device, const VkSurfaceKHR& surface, v_QueueFamilies& queueFamilies);
-		const char** ptrToRequiredSwapChainExtensions() { return deviceExtensions.data(); }
-		std::vector<const char*> getRequiredSwapChainExtensions() {return deviceExtensions;}
+		VkSwapchainKHR createSwapChain(const VkDevice& device, const VkSurfaceKHR& surface, v_QueueFamilies queueFamilies);
+		
+		VkSwapchainKHR recreateSwapChain(const VkDevice& logicalDevice,
+			                   const VkExtent2D& swapExtent,
+			                   const VkSurfaceKHR& surface, 
+			                   v_QueueFamilies queueFamilies, 
+			                   v_ImageViews imageViews, 
+			                   const std::vector<VkImage>& theSwapChainImages, 
+			                   v_Framebuffer framebuffers, 
+			                   VkRenderPass theRenderPass);
+
 		void destroySwapchain(VkDevice device);
 
+
+    //GETTERS
+	public:		
+		VkSwapchainKHR getSwapchainHandle() const { return swapChain; }
+		const char** ptrToRequiredSwapChainExtensions() { return deviceExtensions.data(); }
+		std::vector<const char*> getRequiredSwapChainExtensions() {return deviceExtensions;}
+		VkExtent2D getSwapChainImageExtent() const { return swapExtent; }
+		uint32_t getImageExtentWidth() const { return swapExtent.width; }
+		uint32_t getImageExtentHeight() const { return swapExtent.height; }
+		std::vector<VkImage> getSwapChainImages() const { return swapChainImages; }
+		VkFormat getImageFormat() const { return surfaceFormat.format; }
+		VkSurfaceFormatKHR getSurfaceFormat() const { return surfaceFormat; }
+
+	//SWAPCHAIN VALIDATION
 	private:
 		bool validateSwapChain(const VkPhysicalDevice& device, const VkSurfaceKHR& surface);
 		bool checkDeviceExtensionSupport(const VkPhysicalDevice& device);
@@ -35,7 +58,7 @@ namespace WolfRenderer
 
 
 	private:
-		VkSwapchainKHR swapChain; //the swapchain handle to use for creation
+		VkSwapchainKHR swapChain;
 
 
 		//holds surface capabilities, surface format details, and presentation modes available for use in swapchain
@@ -48,10 +71,9 @@ namespace WolfRenderer
 
 		std::vector<VkImage> swapChainImages; 
 
-		v_ImageViews imageViews; 
 		
 	private:
-		swapChainSupportDetails checkSwapChainSupportDetails(VkPhysicalDevice device, VkSurfaceKHR surface);
+		swapChainSupportDetails checkSwapChainSupportDetails(const VkPhysicalDevice& device, const VkSurfaceKHR& surface);
 
 		VkSurfaceFormatKHR chooseSwapSurfaceFormat(const std::vector<VkSurfaceFormatKHR>& availableFormats);
 

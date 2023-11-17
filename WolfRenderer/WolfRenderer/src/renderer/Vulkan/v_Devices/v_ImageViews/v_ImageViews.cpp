@@ -28,7 +28,7 @@ namespace WolfRenderer
 			createInfo.image = theImages[i]; 
 			createInfo.viewType = VK_IMAGE_VIEW_TYPE_2D;
 			createInfo.format = surfaceFormat.format;
-
+			
 			//allows swizzle of color channels to create different color images
 			createInfo.components.r = VK_COMPONENT_SWIZZLE_IDENTITY; 
 			createInfo.components.g = VK_COMPONENT_SWIZZLE_IDENTITY;
@@ -37,7 +37,7 @@ namespace WolfRenderer
 
 			//purpose of the image
 			createInfo.subresourceRange.aspectMask = VK_IMAGE_ASPECT_COLOR_BIT;
-
+			
 			//mipmap details
 			createInfo.subresourceRange.baseMipLevel = 0; 
 			createInfo.subresourceRange.levelCount = 1; 

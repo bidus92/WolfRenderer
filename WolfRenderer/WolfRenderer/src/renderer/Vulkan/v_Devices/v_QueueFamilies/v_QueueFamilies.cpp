@@ -87,8 +87,10 @@ namespace WolfRenderer
 	std::vector<VkDeviceQueueCreateInfo> v_QueueFamilies::inputQueueCreateInfos()
 	{
 		std::vector<VkDeviceQueueCreateInfo> queueCreateInfos;
-
+		
 		std::set<uint32_t> uniqueQueueFamilies = { indices.graphicsFamily.value(), indices.presentFamily.value() };
+
+		queueCreateInfos.reserve(uniqueQueueFamilies.size());
 
 		for (uint32_t queueFamily : uniqueQueueFamilies)
 		{
@@ -102,21 +104,73 @@ namespace WolfRenderer
 			queueCreateInfo.queueCount = 1;
 			queueCreateInfo.flags = 0; 
 			queueCreateInfo.pNext = 0; 
-			queueCreateInfo.pQueuePriorities = &this->queuePriority; 
+			queueCreateInfo.pQueuePriorities = &queuePriority; 
 
-			queueCreateInfos.push_back(queueCreateInfo);
+			queueCreateInfos.emplace_back(queueCreateInfo);
 		}
 
 		return queueCreateInfos; 
 
 	}
 
-	void v_QueueFamilies::getGraphicsQueue(VkDevice logicalDevice)
+	void v_QueueFamilies::submitQueue(const VkQueue& queue, 
+		                              const VkSemaphore& waitSemaphore, 
+		                              const VkSemaphore& signalSemaphore, 
+		                              const VkFence& fence, 
+		                              const VkCommandBuffer* commandBuffer)
 	{
-		vkGetDeviceQueue(logicalDevice, indices.graphicsFamily.value(), 0, &this->graphicsQueue);
+		VkSubmitInfo submitInfo{};
+		submitInfo.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO; 
+
+		VkSemaphore waitSemaphores[] = { waitSemaphore};
+		//implementation can already start executing vertex shader while image itself is not yet available
+		VkPipelineStageFlags waitStages[] = { VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT };
+
+		submitInfo.waitSemaphoreCount = 1;
+		submitInfo.pWaitSemaphores = waitSemaphores;
+		submitInfo.pWaitDstStageMask = waitStages; 
+
+		submitInfo.commandBufferCount = 1; 
+		submitInfo.pCommandBuffers = commandBuffer; 
+
+		VkSemaphore signalSemaphores[] = { signalSemaphore };
+		submitInfo.signalSemaphoreCount = 1; 
+		submitInfo.pSignalSemaphores = signalSemaphores;
+
+
+		if (vkQueueSubmit(queue, 1, &submitInfo, fence) != VK_SUCCESS)
+		{
+			throw std::runtime_error("Vulkan Queue failed to submit!\n");
+		}
+	
+		//std::cout << "Vulkan Queue Submission successful!\n";
 	}
-	void v_QueueFamilies::getPresentationQueue(VkDevice logicalDevice)
+
+	void v_QueueFamilies::presentTheQueue(const VkSemaphore& waitSemaphore, const VkQueue& presentationQueue, const VkSwapchainKHR& swapChain, uint32_t imageIndex)
 	{
-		vkGetDeviceQueue(logicalDevice, indices.presentFamily.value(), 0, &this->presentQueue);
+		VkSwapchainKHR swapchains[] = {swapChain};
+		VkPresentInfoKHR presentInfo{};
+		presentInfo.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR; 
+		presentInfo.swapchainCount = 1; 
+
+		//TODO: ADD WAIT SEMAPHORE FOR PROPER SYNC
+		VkSemaphore waitSemaphores[] = { waitSemaphore };
+		presentInfo.pWaitSemaphores = waitSemaphores;
+		presentInfo.pSwapchains = swapchains;
+		presentInfo.pImageIndices = &imageIndex;
+
+		presentInfo.pResults = nullptr; 
+
+		vkQueuePresentKHR(presentationQueue, &presentInfo);
+
+	}
+
+	void v_QueueFamilies::getGraphicsQueue(const VkDevice& logicalDevice)
+	{
+		vkGetDeviceQueue(logicalDevice, indices.graphicsFamily.value(), 0, &graphicsQueue);
+	}
+	void v_QueueFamilies::getPresentationQueue(const VkDevice& logicalDevice)
+	{
+		vkGetDeviceQueue(logicalDevice, indices.presentFamily.value(), 0, &presentQueue);
 	}
 }

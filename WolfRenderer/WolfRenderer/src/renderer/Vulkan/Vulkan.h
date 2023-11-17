@@ -6,6 +6,8 @@
 #include "v_Devices/v_Devices.h"
 #include "v_Surface/v_Surface.h"
 
+
+
 #include "events/ApplicationEvent.h"
 #include "core/core.h"
 #include "core/LayerStack.h"
@@ -15,70 +17,71 @@ namespace WolfRenderer
 {
 	class WLFR_API Vulkan
 	{
-		friend class WindowsWindow;
-		public:
+	public:
 
-			static Vulkan& Get();
+		static Vulkan& Get();
 
-			//deletion of assignment operator to prevent singleton from being utilized by any other variable
-			Vulkan operator=(const Vulkan& other) = delete;
+		//deletion of assignment operator to prevent singleton from being utilized by any other variable
+		Vulkan operator=(const Vulkan& other) = delete;
 
-			//public function to initialize our instance 
-			static void createVulkan(SDL_Window* window);
+		//public function to initialize our instance 
+		static void createVulkan(SDL_Window* window);
 
-			//public function to destroy our Vulkan instance
-			static void closeVulkan();
+		//public function to destroy our Vulkan instance
+		static void closeVulkan();
 
-			static VkInstance getInstance();
+		static VkInstance getInstance();
 
-		    static VkDebugUtilsMessengerEXT getTheDebugger();
+		static VkDebugUtilsMessengerEXT getTheDebugger();
 
+		static void drawFrame();
+	private:
+		Vulkan();
 
-		private:
-			Vulkan();
+		virtual ~Vulkan();
 
-			virtual ~Vulkan();
+		Vulkan(const Vulkan&) = delete;
+		Vulkan(Vulkan&&) = delete;
+		Vulkan& operator=(Vulkan&) = delete;
+		Vulkan& operator=(Vulkan&&) = delete;
+		//initializes vulkan
+		void init_Vulkan(SDL_Window* window);
 
-			Vulkan(const Vulkan&) = delete;
-			Vulkan(Vulkan&&) = delete; 
-			Vulkan& operator=(Vulkan&) = delete;
-			Vulkan& operator=(Vulkan&&) = delete;
-			//initializes vulkan
-			void init_Vulkan(SDL_Window* window);
+		//destroys the Vulkan instance
+		void destroy_Vulkan();
 
-			//destroys the Vulkan instance
-			void destroy_Vulkan();
+		void createInstance();
 
-	
+		
 
-			std::vector<VkExtensionProperties> getAvailableExtensions(); 
-
-
-			//populates our extension count and names
-			std::vector<const char*> getRequiredExtensions();
-
-			VkInstance retrieveTheInstance() const; 
+		std::vector<VkExtensionProperties> getAvailableExtensions();
 
 
-		private:
-			//handle for our Vulkan instance
-			VkInstance m_Instance;
+		//populates our extension count and names
+		std::vector<const char*> getRequiredExtensions();
 
-			uint32_t m_AvailableExtensionCount; 
-			
-			std::vector<VkExtensionProperties> m_AvailableExtensions; 
+		VkInstance retrieveTheInstance() const;
 
-			//number of required extensions for Vulkan to function 
-			uint32_t m_RequiredExtensionCount;
+        void draw(); 
 
-			//array of available extensions on our OS
-			std::vector<const char*> m_RequiredExtensionNames;
+	private:
+		//handle for our Vulkan instance
+		VkInstance m_Instance;
 
-			
-		private:
-			v_Debugger debugger;
-			v_Devices devices;
-			v_Surface winSurface; 
+		uint32_t m_AvailableExtensionCount;
 
+		std::vector<VkExtensionProperties> m_AvailableExtensions;
+
+		//number of required extensions for Vulkan to function 
+		uint32_t m_RequiredExtensionCount;
+
+		//array of available extensions on our OS
+		std::vector<const char*> m_RequiredExtensionNames;
+
+
+	private:
+		v_Debugger debugger;
+		v_Devices devices;
+		v_Surface winSurface;
 	};
 }
