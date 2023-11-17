@@ -32,11 +32,10 @@ namespace WolfRenderer
 			                     VK_DEBUG_UTILS_MESSAGE_TYPE_PERFORMANCE_BIT_EXT;
 		createInfo.pfnUserCallback = debugCallback; 
 
-		//TODO: impelement pUserData to be utilized for multiple purposes/Vulkan classes as we abstract
-		//for now it will just be the Vulkan class 
+		
 		createInfo.pUserData = nullptr;//&Vulkan::Get();
 
-		this->debuggerCreateInfo = createInfo; 
+		debuggerCreateInfo = createInfo; 
 
 	}
 

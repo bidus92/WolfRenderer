@@ -31,17 +31,32 @@
     <Filter Include="renderer\Vulkan\v_Devices">
       <UniqueIdentifier>{43DBFAC2-AF9D-2E4D-F84D-BDD9644F072B}</UniqueIdentifier>
     </Filter>
+    <Filter Include="renderer\Vulkan\v_Devices\v_CommandBuffer">
+      <UniqueIdentifier>{C040DCA3-2C5B-3F45-757D-4FD9E1D6664C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer\Vulkan\v_Devices\v_CommandPool">
+      <UniqueIdentifier>{00627CF3-6CF1-3DDE-75ED-1EF6E1FB78EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer\Vulkan\v_Devices\v_Framebuffer">
+      <UniqueIdentifier>{EC7D0733-580D-C91D-6109-AA35CD17042A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer\Vulkan\v_Devices\v_ImageViews">
+      <UniqueIdentifier>{780BE58B-645D-BC7B-4D7C-F98B396DD564}</UniqueIdentifier>
+    </Filter>
     <Filter Include="renderer\Vulkan\v_Devices\v_QueueFamilies">
       <UniqueIdentifier>{B6A3637A-22BE-C61B-6BE0-D6AFD739EE22}</UniqueIdentifier>
     </Filter>
     <Filter Include="renderer\Vulkan\v_Devices\v_SwapChain">
       <UniqueIdentifier>{05E34CDE-71A7-4BCE-3A0D-7C98A690E703}</UniqueIdentifier>
     </Filter>
-    <Filter Include="renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews">
-      <UniqueIdentifier>{7A1EB6A4-66B2-AB4C-CF76-0501BB29E63E}</UniqueIdentifier>
+    <Filter Include="renderer\Vulkan\v_Devices\v_SyncObjects">
+      <UniqueIdentifier>{0E397D26-7AC8-3E11-83C4-1F29EFD2791D}</UniqueIdentifier>
     </Filter>
     <Filter Include="renderer\Vulkan\v_Pipeline">
       <UniqueIdentifier>{96DB125B-82EB-BE2B-EBA4-234AD7D3ADC4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="renderer\Vulkan\v_Shaders">
+      <UniqueIdentifier>{2A2E254B-96F0-58D5-DFA0-E7614BA231B3}</UniqueIdentifier>
     </Filter>
     <Filter Include="renderer\Vulkan\v_Surface">
       <UniqueIdentifier>{A9E4AC6A-15A7-E0F4-5E57-6F81CA58B9D2}</UniqueIdentifier>
@@ -93,25 +108,42 @@
     <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.h">
       <Filter>renderer\Vulkan\v_Debugger</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_CommandBuffer\v_CommandBuffer.h">
+      <Filter>renderer\Vulkan\v_Devices\v_CommandBuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_CommandPool\v_CommandPool.h">
+      <Filter>renderer\Vulkan\v_Devices\v_CommandPool</Filter>
+    </ClInclude>
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_Devices.h">
       <Filter>renderer\Vulkan\v_Devices</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_Framebuffer\v_Framebuffer.h">
+      <Filter>renderer\Vulkan\v_Devices\v_Framebuffer</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_ImageViews\v_ImageViews.h">
+      <Filter>renderer\Vulkan\v_Devices\v_ImageViews</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.h">
       <Filter>renderer\Vulkan\v_Devices\v_QueueFamilies</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews\v_ImageViews.h">
-      <Filter>renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews</Filter>
-    </ClInclude>
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.h">
       <Filter>renderer\Vulkan\v_Devices\v_SwapChain</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SyncObjects\v_SyncObjects.h">
+      <Filter>renderer\Vulkan\v_Devices\v_SyncObjects</Filter>
+    </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Globals.h">
+      <Filter>renderer\Vulkan</Filter>
     </ClInclude>
     <ClInclude Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.h">
       <Filter>renderer\Vulkan\v_Pipeline</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Shaders\v_Shaders.h">
+      <Filter>renderer\Vulkan\v_Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="src\renderer\Vulkan\v_Surface\v_Surface.h">
       <Filter>renderer\Vulkan\v_Surface</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\Vulkan\v_Shaders\v_Shaders.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
@@ -151,24 +183,38 @@
     <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.cpp">
       <Filter>renderer\Vulkan\v_Debugger</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_CommandBuffer\v_CommandBuffer.cpp">
+      <Filter>renderer\Vulkan\v_Devices\v_CommandBuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_CommandPool\v_CommandPool.cpp">
+      <Filter>renderer\Vulkan\v_Devices\v_CommandPool</Filter>
+    </ClCompile>
     <ClCompile Include="src\renderer\Vulkan\v_Devices\v_Devices.cpp">
       <Filter>renderer\Vulkan\v_Devices</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_Framebuffer\v_Framebuffer.cpp">
+      <Filter>renderer\Vulkan\v_Devices\v_Framebuffer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_ImageViews\v_ImageViews.cpp">
+      <Filter>renderer\Vulkan\v_Devices\v_ImageViews</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.cpp">
       <Filter>renderer\Vulkan\v_Devices\v_QueueFamilies</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews\v_ImageViews.cpp">
-      <Filter>renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews</Filter>
-    </ClCompile>
     <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.cpp">
       <Filter>renderer\Vulkan\v_Devices\v_SwapChain</Filter>
+    </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SyncObjects\v_SyncObjects.cpp">
+      <Filter>renderer\Vulkan\v_Devices\v_SyncObjects</Filter>
     </ClCompile>
     <ClCompile Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.cpp">
       <Filter>renderer\Vulkan\v_Pipeline</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Shaders\v_Shaders.cpp">
+      <Filter>renderer\Vulkan\v_Shaders</Filter>
+    </ClCompile>
     <ClCompile Include="src\renderer\Vulkan\v_Surface\v_Surface.cpp">
       <Filter>renderer\Vulkan\v_Surface</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\Vulkan\v_Shaders\v_Shaders.cpp" />
   </ItemGroup>
 </Project>

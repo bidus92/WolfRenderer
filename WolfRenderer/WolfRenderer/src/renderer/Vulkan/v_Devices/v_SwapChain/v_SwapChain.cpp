@@ -1,11 +1,12 @@
 #include "pch.h"
 
 #include "v_SwapChain.h"
+#include "../../v_Pipeline/v_Pipeline.h"
 
 #include <set>
 #include <limits>
 #include <SDL3/SDL_vulkan.h>
-
+#include "../../v_Globals.h"
 namespace WolfRenderer
 {
 	v_SwapChain::v_SwapChain()
@@ -22,9 +23,9 @@ namespace WolfRenderer
 	void v_SwapChain::validateAndPopulate(const VkPhysicalDevice& device, SDL_Window* window, const VkSurfaceKHR& surface)
 	{
 		validateSwapChain(device, surface); 
-		this->surfaceFormat = chooseSwapSurfaceFormat(this->supportDetails.formats);
-		this->presentMode = chooseSwapPresentationMode(this->supportDetails.presentModes);
-		this->swapExtent = chooseSwapExtent(this->supportDetails.capabilities, window);
+		surfaceFormat = chooseSwapSurfaceFormat(this->supportDetails.formats);
+		presentMode = chooseSwapPresentationMode(this->supportDetails.presentModes);
+		swapExtent = chooseSwapExtent(this->supportDetails.capabilities, window);
 
 		//acquire one more image than the minimum so we don't have to wait on driver operations to complete
 //before taking in another image into the swapchain 
@@ -36,10 +37,9 @@ namespace WolfRenderer
 		}
 	}
 
-	//TODO: Finish function tomorrow! 
-	void v_SwapChain::createSwapChainAndImageViews(const VkDevice& device, const VkSurfaceKHR& surface, v_QueueFamilies& queueFamilies)
+	//TODO: BREAK UP IMAGE VIEW CREATION AND SWAPCHAIN TO TWO SEPARATE FUNCTIONS! 
+	VkSwapchainKHR v_SwapChain::createSwapChain(const VkDevice& device, const VkSurfaceKHR& surface, v_QueueFamilies queueFamilies)
 	{
-
 		VkSwapchainCreateInfoKHR createInfo{};
 		createInfo.sType = VK_STRUCTURE_TYPE_SWAPCHAIN_CREATE_INFO_KHR; 
 		createInfo.surface = surface;
@@ -71,7 +71,7 @@ namespace WolfRenderer
 		createInfo.presentMode = presentMode; 
 		createInfo.clipped = VK_TRUE; //clips unseen pixels 
 
-		createInfo.oldSwapchain = VK_NULL_HANDLE; 
+		createInfo.oldSwapchain = swapChain; 
 
 		if (vkCreateSwapchainKHR(device, &createInfo, nullptr, &this->swapChain) != VK_SUCCESS)
 		{
@@ -86,17 +86,39 @@ namespace WolfRenderer
 		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, nullptr); 
 		swapChainImages.resize(imageCount); 
 		vkGetSwapchainImagesKHR(device, swapChain, &imageCount, swapChainImages.data());
-
-
-		imageViews.createImageViews(device, swapChainImages, surfaceFormat); 
 		
+		return swapChain;
+	}
+	
+	VkSwapchainKHR v_SwapChain::recreateSwapChain(const VkDevice& logicalDevice,
+		                                const VkExtent2D& swapExtent,
+		                                const VkSurfaceKHR& surface,
+		                                v_QueueFamilies queueFamilies,
+		                                v_ImageViews imageViews,
+		                                const std::vector<VkImage>& theSwapChainImages,
+		                                v_Framebuffer framebuffers,
+		                                VkRenderPass theRenderPass)
+	{
+		vkDeviceWaitIdle(logicalDevice); 
+
+		//SDL_GetWindowSizeInPixels()
+
+		destroySwapchain(logicalDevice);
+
+		this->swapChain = createSwapChain(logicalDevice, surface, queueFamilies); 
+		v_Pipeline::recreateRenderPass(logicalDevice, *this, theRenderPass);
+		imageViews.createImageViews(logicalDevice, swapChainImages, surfaceFormat);
+		framebuffers.createFramebuffers(logicalDevice, imageViews.getImageViews(), swapExtent.width, swapExtent.height, theRenderPass);
+
+		
+		return this->swapChain; 
 	}
 
 	bool v_SwapChain::validateSwapChain(const VkPhysicalDevice& device, const VkSurfaceKHR& surface)
 	{
-		this->checkDeviceExtensionSupport(device);
+		checkDeviceExtensionSupport(device);
 
-		this->supportDetails = checkSwapChainSupportDetails(device, surface);
+		supportDetails = checkSwapChainSupportDetails(device, surface);
 
 		std::cout << "Vulkan SwapChain validated\n";
 		
@@ -131,7 +153,7 @@ namespace WolfRenderer
 
 	}
 
-	swapChainSupportDetails v_SwapChain::checkSwapChainSupportDetails(VkPhysicalDevice device, VkSurfaceKHR surface)
+	swapChainSupportDetails v_SwapChain::checkSwapChainSupportDetails(const VkPhysicalDevice& device, const VkSurfaceKHR& surface)
 	{
 		swapChainSupportDetails details; 
 
@@ -222,8 +244,7 @@ namespace WolfRenderer
 	}
 
 	void v_SwapChain::destroySwapchain(VkDevice device) 
-	{ 
-		imageViews.destroyImageViews(device); 
+	{  
 		vkDestroySwapchainKHR(device, swapChain, nullptr); 
 		std::cout << "Vulkan Swapchain successfully destroyed!\n";
 	}

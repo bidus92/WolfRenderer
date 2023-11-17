@@ -17,6 +17,7 @@ namespace WolfRenderer
 		void createImageViews(const VkDevice& device, const std::vector<VkImage>& theImages, const VkSurfaceFormatKHR& format);
 
 		void destroyImageViews(const VkDevice& device);
+		std::vector<VkImageView> getImageViews() const { return swapChainImageViews; }
 	private:
 		std::vector<VkImageView> swapChainImageViews;
 		

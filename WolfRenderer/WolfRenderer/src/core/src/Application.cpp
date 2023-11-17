@@ -3,7 +3,7 @@
 
 #include "core/Application.h"
 #include "core/Log.h"
-
+#include "vulkan/vulkan.h"
 #include <SDL3/SDL.h>
 
 namespace WolfRenderer
@@ -62,6 +62,8 @@ namespace WolfRenderer
 			}
 			m_Window->onUpdate();
 		}
+
+		
 
 	}	
 	

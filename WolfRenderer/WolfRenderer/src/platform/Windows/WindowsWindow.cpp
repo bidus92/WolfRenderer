@@ -7,6 +7,7 @@
 #include "SDL3/SDL_error.h"
 #include "SDL3/SDL_thread.h"
 
+#include "renderer/Vulkan/v_Globals.h"
 #include "renderer/Vulkan/Vulkan.h"
 #include "renderer/Vulkan/v_Debugger/v_Debugger.h"
 namespace WolfRenderer
@@ -43,6 +44,7 @@ namespace WolfRenderer
 	        
 
 			data.EventCallback(event);
+
 	}
 
 	//callback function for SDL for closing the window
@@ -169,9 +171,12 @@ namespace WolfRenderer
 		//creates our vulkan renderer after creation of SDL window
 		Vulkan::createVulkan(m_Window); 
 		
+
 		//pointer set to our window data to be used in callback functions as needed
 		SDL_SetWindowData(m_Window, "Window Props", &m_Data); 
 		setVSync(true);
+		
+		Vulkan::drawFrame();
 	}
 
 	//Set SDL event callbacks!
@@ -193,6 +198,7 @@ namespace WolfRenderer
 			switch (m_SDL_Event.type)
 			{
 			case SDL_EVENT_WINDOW_PIXEL_SIZE_CHANGED:
+				//TODO: incorporate window Resize for Vulkan and leave open for other potential APIs in the future
 				resizeWindowCallback(&m_SDL_Event);
 				break;
 			case SDL_EVENT_QUIT:
@@ -219,6 +225,8 @@ namespace WolfRenderer
 			}
 			//SDL_WaitEvent(&another_event);
 		};
+
+		
 
 		//TODO: implement vulkan swapping of buffers. Will be utilized later
 	}
