@@ -32,5 +32,5 @@
 # Setup
 * In the Project Repository, click **Code** and copy the link to clone your repository in location of your choosing.
 
-* Once repository has been cloned, double click the GenerateProjects.bat file and your Visual Studio project will 
+* Once repository has been cloned, double click the GenerateProjects.bat file and your Visual Studio project will be set up and ready to build in all formats! (Debug, Release, Dist) 
 
