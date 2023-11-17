@@ -1,0 +1,24 @@
+[submodule "WolfRenderer/vendor/spdlog"]
+	path = WolfRenderer/vendor/spdlog
+	url = https://github.com/gabime/spdlog
+[submodule "WolfRenderer/vendor/WolfRenderer/vendor"]
+	path = WolfRenderer/vendor/WolfRenderer/vendor
+	url = https://github.com/ocornut/imgui.git
+[submodule "WolfRenderer/vendor/imgui"]
+	path = WolfRenderer/vendor/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "WolfRenderer/vendor/SDL3"]
+	path = WolfRenderer/vendor/SDL3
+	url = https://github.com/bidus92/SDL3.git
+[submodule "WolfRenderer/vendor/Dear_ImGui"]
+	path = WolfRenderer/vendor/Dear_ImGui
+	url = https://github.com/bidus92/imgui.git
+[submodule "WolfRenderer/WolfRenderer/vendor/spdlog"]
+	path = WolfRenderer/WolfRenderer/vendor/spdlog
+	url = https://github.com/gabime/spdlog.git
+[submodule "WolfRenderer/WolfRenderer/vendor/SDL3"]
+	path = WolfRenderer/WolfRenderer/vendor/SDL3
+	url = https://github.com/bidus92/SDL3.git
+[submodule "WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui"]
+	path = WolfRenderer/WolfRenderer/vendor/Dear_ImGui/imgui
+	url = https://github.com/bidus92/imgui.git

@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Dist|x64">
+      <Configuration>Dist</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{74DC4600-603F-D6A4-09C5-0E5BF506A227}</ProjectGuid>
+    <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>WolfRenderer</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v143</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>..\..\bin\Debug-windows-x86_64\WolfRenderer\</OutDir>
+    <IntDir>..\..\bin-int\Debug-windows-x86_64\WolfRenderer\</IntDir>
+    <TargetName>WolfRenderer</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\bin\Release-windows-x86_64\WolfRenderer\</OutDir>
+    <IntDir>..\..\bin-int\Release-windows-x86_64\WolfRenderer\</IntDir>
+    <TargetName>WolfRenderer</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>..\..\bin\Dist-windows-x86_64\WolfRenderer\</OutDir>
+    <IntDir>..\..\bin-int\Dist-windows-x86_64\WolfRenderer\</IntDir>
+    <TargetName>WolfRenderer</TargetName>
+    <TargetExt>.dll</TargetExt>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DEBUG;WLFR_ENABLE_ASSERTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui\imgui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;vendor\Vulkan\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>vulkan-1.lib;winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\Vulkan\Lib;vendor\SDL3\bin\Debug-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Debug-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Debug-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Debug-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Debug-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui\imgui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;vendor\Vulkan\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vulkan-1.lib;winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\Vulkan\Lib;vendor\SDL3\bin\Release-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Release-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Release-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Release-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Release-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
+    <ClCompile>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <WarningLevel>Level3</WarningLevel>
+      <PreprocessorDefinitions>SDL_STATIC_LIB;_WIN64;WLFR_PLATFORM_WINDOWS;WLFR_BUILD_DLL;WLFR_DIST;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>src;vendor\spdlog\include;vendor\Dear_ImGui\imgui;vendor\SDL3\include;vendor\SDL3\include\build_config;vendor\SDL3\include\SDL3;vendor\Vulkan\Include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <Optimization>Full</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <MinimalRebuild>false</MinimalRebuild>
+      <StringPooling>true</StringPooling>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <ExternalWarningLevel>Level3</ExternalWarningLevel>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>vulkan-1.lib;winmm.lib;version.lib;imm32.lib;setupapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>vendor\Vulkan\Lib;vendor\SDL3\bin\Dist-windows-x86_64\SDL3;vendor\Dear_ImGui\imgui\bin\Dist-windows-x86_64Dear_ImGui;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <ImportLibrary>..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.lib</ImportLibrary>
+    </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll\ (xcopy /Q /E /Y /I ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Dist-windows-x86_64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\..\bin\Dist-windows-x86_64\WolfRenderer\WolfRenderer.dll $(SolutionDir)\bin\Dist-windows-x86_64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="src\renderer\Vulkan\v_Shaders\v_Shaders.h" />
+    <ClInclude Include="src\Window.h" />
+    <ClInclude Include="src\WolfRenderer.h" />
+    <ClInclude Include="src\core\Application.h" />
+    <ClInclude Include="src\core\EntryPoint.h" />
+    <ClInclude Include="src\core\Layer.h" />
+    <ClInclude Include="src\core\LayerStack.h" />
+    <ClInclude Include="src\core\Log.h" />
+    <ClInclude Include="src\core\core.h" />
+    <ClInclude Include="src\events\ApplicationEvent.h" />
+    <ClInclude Include="src\events\Event.h" />
+    <ClInclude Include="src\events\KeyEvent.h" />
+    <ClInclude Include="src\events\MouseEvent.h" />
+    <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\platform\Windows\WindowsWindow.h" />
+    <ClInclude Include="src\renderer\Vulkan\Vulkan.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_Debugger.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_Devices.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews\v_ImageViews.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Surface\v_Surface.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\core\src\Application.cpp" />
+    <ClCompile Include="src\core\src\Layer.cpp" />
+    <ClCompile Include="src\core\src\LayerStack.cpp" />
+    <ClCompile Include="src\core\src\Log.cpp" />
+    <ClCompile Include="src\events\src\ApplicationEvent.cpp" />
+    <ClCompile Include="src\events\src\Event.cpp" />
+    <ClCompile Include="src\events\src\KeyEvent.cpp" />
+    <ClCompile Include="src\events\src\MouseEvent.cpp" />
+    <ClCompile Include="src\pch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="src\platform\Windows\WindowsWindow.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\Vulkan.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_Debugger.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Debugger\v_ValidationLayers.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_Devices.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_QueueFamilies\v_QueueFamilies.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_ImageViews\v_ImageViews.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Shaders\v_Shaders.cpp" />
+    <ClCompile Include="src\renderer\Vulkan\v_Surface\v_Surface.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="vendor\Dear_ImGui\imgui\Dear_ImGui.vcxproj">
+      <Project>{FBCBF5EC-E783-373A-508B-10963C62D22A}</Project>
+    </ProjectReference>
+    <ProjectReference Include="vendor\SDL3\build\SDL3-static.vcxproj">
+      <Project>{46047124-28AD-3B51-BD63-D18D73988CEC}</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
