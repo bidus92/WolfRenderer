@@ -18,13 +18,13 @@
 ### Visual Studio
 
 * [Visual Studio Download Link](https://visualstudio.microsoft.com/downloads/) 
-*After clicking the link, Select "Community" and follow download instructions from there.
+* After clicking the link, Select "Community" and follow download instructions from there.
 
 * _Why is This Required?_  Technically it isn't, though this project was made with Visual Studio and works best in its current iteration with this IDE.
 
 ### CMake
-*[CMake Download Link](https://cmake.org/download/)
-*Select your preferred download of CMake and follow instructions from there. Recommended to download the Windows x64 binary for ease of setup 
+* [CMake Download Link](https://cmake.org/download/)
+* Select your preferred download of CMake and follow instructions from there. Recommended to download the Windows x64 binary for ease of setup 
 
 * _Why Is this required?_  SDL3 Requires CMake to build statically. Even though the primary build system is Premake, building SDL3 without issue requires CMake to generate the project.
   
