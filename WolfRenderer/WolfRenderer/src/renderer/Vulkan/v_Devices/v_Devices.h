@@ -27,36 +27,41 @@ namespace WolfRenderer
 		void selectPhysicalDevice();
 		void initialize (VkInstance instance, SDL_Window* window, v_Debugger& theDebugger, VkSurfaceKHR theSurface);
 		void destroyLogicalDevice();
-		VkFence* getFencePtr(int& currentFrame)  { return syncObjects.getPtrToFences(currentFrame); }
+		VkFence* getFencePtr(int& currentFrame)  { return m_SyncObjects.getPtrToFences(currentFrame); }
 
+	//**GETTERS
 	public:
-	    VkDevice getLogicalDevice() const { return logicalDevice; }
-		VkSwapchainKHR getSwapchain() const { return swapChain.getSwapchainHandle(); }
-		v_SwapChain swapChainInterface() const { return swapChain; }
-        VkCommandBuffer getCommandBuffer(int& currentFrame) const { return  commandBuffer.getCommandBufferHandle(currentFrame); }
-		v_QueueFamilies queueFamilyInterface() const { return queueFamilies; }
-		v_ImageViews imageViewInterface() const { return imageViews; }
-		v_Framebuffer frameBufferInterface() const { return framebuffer; }
-		v_Pipeline getGraphicsPipeline() const { return graphicsPipeline; }
+	    VkDevice getLogicalDevice() const { return m_LogicalDevice; }
+
+
+		VkSwapchainKHR getSwapchain() const { return m_SwapChain.getSwapchainHandle(); }
+
+		//TODO: MOVE TO VULKAN FILE!
+		v_SwapChain swapChainInterface() const { return m_SwapChain; }
+        VkCommandBuffer getCommandBuffer(int& currentFrame) const { return  m_CommandBuffer.getCommandBufferHandle(currentFrame); }
+		v_QueueFamilies queueFamilyInterface() const { return m_QueueFamilies; }
+		v_ImageViews imageViewInterface() const { return m_ImageViews; }
+		v_Framebuffer frameBufferInterface() const { return m_Framebuffer; }
+		v_Pipeline getGraphicsPipeline() const { return m_GraphicsPipeline; }
 	public:	
 		void draw(const uint32_t& imageIndex, int& currentFrame);
 
 //TODO: MAKE BETTER INTERFACE WITH LESS SYNTAX
 //functions to interface with Vulkan Singleton
 	public:
-		VkSemaphore getImageSemaphore(int& currentFrame) const { return syncObjects.getImageSemaphore(currentFrame); }
-		VkSemaphore getRenderFinishedSemaphore(int& currentFrame) const { return syncObjects.getRenderFinishedSemaphore(currentFrame); }
-		VkFence getInFlightFence(int& currentFrame) const { return syncObjects.getInFlightFence(currentFrame); }
-		void recordCommandBuffer(int& currentFrame) { commandBuffer.recordCommandBuffer(logicalDevice, graphicsPipeline.getRenderPass(), framebuffer.getFrameBuffers(), swapChain.getSwapChainImageExtent(), graphicsPipeline.getGraphicsPipeline(), 0, graphicsPipeline.getViewport(), graphicsPipeline.getScissor(), currentFrame); }
+		VkSemaphore getImageSemaphore(int& currentFrame) const { return m_SyncObjects.getImageSemaphore(currentFrame); }
+		VkSemaphore getRenderFinishedSemaphore(int& currentFrame) const { return m_SyncObjects.getRenderFinishedSemaphore(currentFrame); }
+		VkFence getInFlightFence(int& currentFrame) const { return m_SyncObjects.getInFlightFence(currentFrame); }
+		void recordCommandBuffer(int& currentFrame) { m_CommandBuffer.recordCommandBuffer(m_LogicalDevice, m_GraphicsPipeline.getRenderPass(), m_Framebuffer.getFrameBuffers(), m_SwapChain.getSwapChainImageExtent(), m_GraphicsPipeline.getGraphicsPipeline(), 0, m_GraphicsPipeline.getViewport(), m_GraphicsPipeline.getScissor(), currentFrame); }
 //**Physical Device members and functions
 	private:
-		VkPhysicalDevice physicalDevice = VK_NULL_HANDLE; 
-		uint32_t physicalDeviceCount; 
-		std::vector<VkPhysicalDevice> availablePhysicalDevices;
-		VkPhysicalDeviceProperties physicalDeviceProperties; 
-		VkPhysicalDeviceFeatures physicalDeviceFeatures; 
+		VkPhysicalDevice m_PhysicalDevice = VK_NULL_HANDLE; 
+		uint32_t m_PhysicalDeviceCount; 
+		std::vector<VkPhysicalDevice> m_AvailablePhysicalDevices;
+		VkPhysicalDeviceProperties m_PhysicalDeviceProperties; 
+		VkPhysicalDeviceFeatures m_PhysicalDeviceFeatures; 
 
-
+//**Physical Device selection functions
 	private:
 		std::vector<VkPhysicalDevice> locatePhysicalDevices(VkInstance instance);
 		int ratePhysicalDevice(VkPhysicalDevice device);
@@ -64,21 +69,21 @@ namespace WolfRenderer
 
 
 //**Misc. classes to interact with devices
+//TODO: Move setup to Vulkan class 
 	private:
-		v_QueueFamilies queueFamilies;
-		v_SwapChain swapChain; 
-		v_Pipeline graphicsPipeline;	 
-		v_Framebuffer framebuffer; 
-		v_ImageViews imageViews; 
+		v_QueueFamilies m_QueueFamilies;
+		v_SwapChain m_SwapChain; 
+		v_Pipeline m_GraphicsPipeline;	 
+		v_Framebuffer m_Framebuffer; 
+		v_ImageViews m_ImageViews; 
 
-
-		v_CommandPool commandPool; 
-		v_CommandBuffer commandBuffer;
-		v_SyncObjects syncObjects;
+		v_CommandPool m_CommandPool; 
+		v_CommandBuffer m_CommandBuffer;
+		v_SyncObjects m_SyncObjects;
 
 //**Logical Device members and functions
 	private:
-		VkDevice logicalDevice;
+		VkDevice m_LogicalDevice;
 	private:
 		void createLogicalDevice(v_Debugger& theDebugger);
 

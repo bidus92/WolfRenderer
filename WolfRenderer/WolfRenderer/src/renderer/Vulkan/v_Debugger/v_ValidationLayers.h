@@ -19,11 +19,10 @@ namespace WolfRenderer
 
 	public:	
 
-		uint32_t getEnabledLayerCount() { return validationLayers.size(); }
-		const char** ptrToValidationLayers() { return validationLayers.data(); }
+		uint32_t getEnabledLayerCount() { return m_ValidationLayers.size(); }
+		const char** ptrToValidationLayers() { return m_ValidationLayers.data(); }
 
-		bool enableLayers;
-		bool isValidationEnabled() { return enableLayers; }
+		bool isValidationEnabled();
 		bool checkSupport();
 
 	protected:
@@ -32,14 +31,14 @@ namespace WolfRenderer
 
 	private:
 
-
 		// TODO: add event dispatcher for Vulkan Events! Validation Layers, notifications, etc. 
 		// TODO: cleanup struct establishing functions
 		
 
 	private:
-		std::vector<const char*> validationLayers;
-
+		bool enableLayers;
+		std::vector<const char*> m_ValidationLayers;
+		int validationLayersChecked = 0; 
 
 	};
 }

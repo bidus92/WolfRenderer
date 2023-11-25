@@ -11,8 +11,7 @@ namespace WolfRenderer
 	
 	Vulkan::Vulkan()
 	{
-		this->m_AvailableExtensions = getAvailableExtensions();
-		this->m_RequiredExtensionNames = getRequiredExtensions();
+
 	}
 
 	Vulkan::~Vulkan()
@@ -26,124 +25,17 @@ namespace WolfRenderer
 	}
 
 
-	VkInstance Vulkan::getInstance()
-	{
-		return Get().retrieveTheInstance();
-	}
-
-	VkDebugUtilsMessengerEXT Vulkan::getTheDebugger()
-	{
-		return Get().debugger.getDebugMessenger(); 
-	}
-
-	std::vector<VkExtensionProperties> Vulkan::getAvailableExtensions()
-	{
-		//TODO: edit first nullptr when validation layers are implemented
-		vkEnumerateInstanceExtensionProperties(nullptr, &m_AvailableExtensionCount, nullptr);
-
-		std::vector<VkExtensionProperties> extensionProperties(m_AvailableExtensionCount);
-		//get extension properties of ALL available extensions on our OS
-		vkEnumerateInstanceExtensionProperties(nullptr, &m_AvailableExtensionCount, extensionProperties.data());
-
-		return extensionProperties;
-	}
-
-
-	//stores names of Vulkan instance extensions 
-	std::vector<const char*> Vulkan::getRequiredExtensions()
-	{
-		//+1 reserved for event of debugger usage; will be modified later in optimization
-		std::vector<const char*> extensionNames;
-
-		if (debugger.enableLayers)
-		{
-            extensionNames.reserve(m_AvailableExtensionCount + 1);
-            extensionNames.emplace_back(VK_EXT_DEBUG_UTILS_EXTENSION_NAME);
-		}
-		else
-		{
-			extensionNames.reserve(m_AvailableExtensionCount);
-		}
-	
-		for (uint32_t i = 0; i < m_AvailableExtensionCount; i++)
-		{
-			const char* name = m_AvailableExtensions[i].extensionName;
-			extensionNames.emplace_back(name);
-		}
-		//use these for SDL_Vulkan_CreateSurface
-		WLFR_CORE_ASSERT(SDL_Vulkan_GetInstanceExtensions(&m_RequiredExtensionCount, m_RequiredExtensionNames.data()), "Failed to get required Vulkan extensions for SDL");
-		
-
-		return extensionNames; 
-
-		//identifies our required extensions for Vulkan to work with SDL	
-		 
-
-	}
-
-
 	void Vulkan::createVulkan(SDL_Window* window)
 	{
 		Get().init_Vulkan(window);
 	}
-	void Vulkan::createInstance()
-	{
-		VkApplicationInfo appInfo{};
-		appInfo.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
-		appInfo.pApplicationName = "Sandbox";
-		appInfo.applicationVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.pEngineName = "WolfRenderer";
-		appInfo.engineVersion = VK_MAKE_VERSION(1, 0, 0);
-		appInfo.apiVersion = VK_MAKE_API_VERSION(0, 1, 3, 261.1);
-
-		VkInstanceCreateInfo createInfo{};
-		createInfo.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
-		createInfo.pApplicationInfo = &appInfo;
-
-
-		createInfo.enabledExtensionCount = m_RequiredExtensionNames.size();
-		createInfo.ppEnabledExtensionNames = m_RequiredExtensionNames.data();
-		createInfo.pNext = &debugger.debuggerCreateInfo;
-
-
-		if (debugger.enableLayers)
-		{
-			createInfo.enabledLayerCount = debugger.getEnabledLayerCount();
-			createInfo.ppEnabledLayerNames = debugger.ptrToValidationLayers();
-		}
-		else
-		{
-			createInfo.enabledLayerCount = 0;
-			createInfo.ppEnabledLayerNames = nullptr;
-		}
-
-
-		//TODO: establish allocator callback for memory optimization purposes.
-		VkResult result = vkCreateInstance(&createInfo, nullptr, &m_Instance);
-
-		//TODO(Possible): implement into the event system! 
-		if (result == VK_SUCCESS)
-		{
-			std::cout << "Vulkan initialization successful!\n";
-		}
-	}
+	
 	void Vulkan::init_Vulkan(SDL_Window* window)
 	{
-		createInstance();
 
-		if (debugger.enableLayers)
-		{
-			std::cout << "Validation Layers Enabled!\n";
-			debugger.setupDebugger(m_Instance, debugger.getDebuggerCreateInfo(), debugger.getDebugMessengerPtr());
-		}
-		else
-		{
-			std::cout << "Validation Layers Disabled!\n";
-		}
+		m_WinSurface.createWinSurface(window, m_Instance.getInstance(), m_WinSurface.getWinSurface());
 
-		winSurface.createWinSurface(window, m_Instance, winSurface.getWinSurface());
-
-		devices.initialize(m_Instance, window, debugger, winSurface.getWinSurface());
+		m_Devices.initialize(m_Instance.getInstance(), window, m_Debugger, m_WinSurface.getWinSurface());
 	}
 
 	void Vulkan::draw()
@@ -151,16 +43,20 @@ namespace WolfRenderer
 		
 		for (int currentFrame = 0; currentFrame < MAX_FRAMES_IN_FLIGHT; currentFrame++)
 		{
-	        vkWaitForFences(devices.getLogicalDevice(), 1, devices.getFencePtr(currentFrame), VK_TRUE, UINT64_MAX);
+	        vkWaitForFences(m_Devices.getLogicalDevice(), 1, m_Devices.getFencePtr(currentFrame), VK_TRUE, UINT64_MAX);
 
 			uint32_t imageIndex; 
-			VkResult result = vkAcquireNextImageKHR(devices.getLogicalDevice(), devices.getSwapchain(), UINT64_MAX, devices.getImageSemaphore(currentFrame), VK_NULL_HANDLE, &imageIndex);
+			VkResult result = vkAcquireNextImageKHR(m_Devices.getLogicalDevice(), m_Devices.getSwapchain(), UINT64_MAX, m_Devices.getImageSemaphore(currentFrame), VK_NULL_HANDLE, &imageIndex);
 			if (result == VK_ERROR_OUT_OF_DATE_KHR)
 			{
-				devices.swapChainInterface().recreateSwapChain(devices.getLogicalDevice(), 
-					                                           devices.swapChainInterface().getSwapChainImageExtent(), 
-					                                           winSurface.getWinSurface(), 
-					                                           devices.queueFamilyInterface(), devices.imageViewInterface(), devices.swapChainInterface().getSwapChainImages(), devices.frameBufferInterface(), devices.getGraphicsPipeline().getRenderPass());
+				m_Devices.swapChainInterface().recreateSwapChain(m_Devices.getLogicalDevice(),
+					                                             m_Devices.swapChainInterface().getSwapChainImageExtent(),
+					                                             m_WinSurface.getWinSurface(), 
+					                                             m_Devices.queueFamilyInterface(),
+					                                             m_Devices.imageViewInterface(), 
+					                                             m_Devices.swapChainInterface().getSwapChainImages(), 
+					                                             m_Devices.frameBufferInterface(), 
+					                                             m_Devices.getGraphicsPipeline().getRenderPass());
 				return;
 			}
 
@@ -168,13 +64,13 @@ namespace WolfRenderer
 			{
 				throw std::runtime_error("Failed to acquire Vulkan Swapchain Image!\n");
 			}
-			vkResetCommandBuffer(devices.getCommandBuffer(currentFrame), 0); 
+			vkResetCommandBuffer(m_Devices.getCommandBuffer(currentFrame), 0); 
 
-			devices.recordCommandBuffer(currentFrame);
+			m_Devices.recordCommandBuffer(currentFrame);
 
-			devices.draw(imageIndex, currentFrame);
+			m_Devices.draw(imageIndex, currentFrame);
            
-			vkResetFences(devices.getLogicalDevice(), 1, devices.getFencePtr(currentFrame));
+			vkResetFences(m_Devices.getLogicalDevice(), 1, m_Devices.getFencePtr(currentFrame));
 			currentFrame = (currentFrame + 1) % MAX_FRAMES_IN_FLIGHT; 
 		}
 		
@@ -195,18 +91,13 @@ namespace WolfRenderer
 
 	void Vulkan::destroy_Vulkan()
 	{
-		vkDeviceWaitIdle(devices.getLogicalDevice());
-		devices.destroyLogicalDevice(); 
-		debugger.destroyDebugger(m_Instance);
-		winSurface.destroyWinSurface(m_Instance, winSurface.getWinSurface()); 
-		vkDestroyInstance(m_Instance, nullptr);
+		vkDeviceWaitIdle(m_Devices.getLogicalDevice());
+		m_Devices.destroyLogicalDevice();
+		m_Debugger.destroyDebugger(m_Instance.getInstance(), m_Debugger.getDebugMessenger());
+		m_WinSurface.destroyWinSurface(m_Instance.getInstance(), m_WinSurface.getWinSurface());
+		m_Instance.destroyInstance();
 		std::cout << "Vulkan Instance successfully destroyed!\n";
 	}
 
-
-	VkInstance Vulkan::retrieveTheInstance()const
-	{
-		return m_Instance; 
-	}
 
 }
