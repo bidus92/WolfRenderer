@@ -10,9 +10,9 @@ namespace WolfRenderer
 	class WLFR_API v_Debugger : public v_ValidationLayers
 	{
 	
-	
+		friend class v_Instance; 
 	public: 
-		v_Debugger();
+		v_Debugger(const VkInstance& vulkanInstance, bool isInstanceCreated, std::mutex& instanceCreationStatus, std::condition_variable& instanceCreationSuccessful);
 
 		virtual ~v_Debugger() override;
 
@@ -21,59 +21,45 @@ namespace WolfRenderer
 
 		void setupDebugger(VkInstance instance, VkDebugUtilsMessengerCreateInfoEXT debugCreateInfo, VkDebugUtilsMessengerEXT* debugMessHandle);
 
-		void destroyDebugger(VkInstance instance);
+		void destroyDebugger(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger);
 
-
-		//creates our debug extension object, implement into Vulkan class 
-		VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, VkAllocationCallbacks* pAllocator, VkDebugUtilsMessengerEXT* pDebugMessenger)
-		{
-			auto func = (PFN_vkCreateDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkCreateDebugUtilsMessengerEXT");
-			if (func != nullptr) {
-				return func(instance, pCreateInfo, pAllocator, pDebugMessenger);
-			}
-			else {
-				return VK_ERROR_EXTENSION_NOT_PRESENT;
-			}
-
-		}
-
-		//destroys vulkan debugger handle 
-		static void DestroyDebugUtilsMessengerEXT(VkInstance instance, VkDebugUtilsMessengerEXT debugMessenger, const VkAllocationCallbacks* pAllocator) {
-			auto func = (PFN_vkDestroyDebugUtilsMessengerEXT)vkGetInstanceProcAddr(instance, "vkDestroyDebugUtilsMessengerEXT");
-			if (func != nullptr) {
-				func(instance, debugMessenger, pAllocator);
-			}
-			
-		}
-
-	    VkDebugUtilsMessengerCreateInfoEXT getDebuggerCreateInfo() const { return debuggerCreateInfo; }
-		VkDebugUtilsMessengerEXT getDebugMessenger() const { return debugMessenger; }
-
-		VkDebugUtilsMessengerEXT* getDebugMessengerPtr()  { return &debugMessenger; }
-
-        VkDebugUtilsMessengerCreateInfoEXT debuggerCreateInfo; 
-	private:
-
-	    VkDebugUtilsMessengerEXT debugMessenger;
 		
 
+    //**Vulkan debugger object creation and destruction functions
+	public:
+		//creates our debug extension object, implement into Vulkan class 
+		VkResult CreateDebugUtilsMessengerEXT(VkInstance instance, 
+			                                  const VkDebugUtilsMessengerCreateInfoEXT* pCreateInfo, 
+			                                  VkAllocationCallbacks* pAllocator, 
+			                                  VkDebugUtilsMessengerEXT* pDebugMessenger);
 
+		//destroys vulkan debugger handle 
+		static void DestroyDebugUtilsMessengerEXT(VkInstance instance, 
+			                                      VkDebugUtilsMessengerEXT debugMessenger, 
+			                                      const VkAllocationCallbacks* pAllocator);
 
 		static VKAPI_ATTR VkBool32 VKAPI_CALL debugCallback(
 			VkDebugUtilsMessageSeverityFlagBitsEXT messageSeverity,
 			VkDebugUtilsMessageTypeFlagsEXT messageType,
 			const VkDebugUtilsMessengerCallbackDataEXT* pCallbackData,
-			void* pUserData)
-		{
-			
-			//TODO: implement message into event system 
-			if (messageSeverity >= VK_DEBUG_UTILS_MESSAGE_SEVERITY_WARNING_BIT_EXT)
-			{
-				std::cerr << "validation layer: " << pCallbackData->pMessage << std::endl;
-			}
+			void* pUserData);
 
-			return VK_FALSE; 
-			}
+
+	//**GETTERS
+	public:
+	    VkDebugUtilsMessengerCreateInfoEXT getCreateInfo() const { return m_DebuggerCreateInfo; }
+		VkDebugUtilsMessengerCreateInfoEXT* getCreateInfoPtr()  { return &m_DebuggerCreateInfo; }
+		VkDebugUtilsMessengerEXT getDebugMessenger() const { return m_DebugMessenger; }
+
+		VkDebugUtilsMessengerEXT* getDebugMessengerPtr()  { return &m_DebugMessenger; }
+
+    //MEMBERS   
+	private:
+
+        VkDebugUtilsMessengerCreateInfoEXT m_DebuggerCreateInfo; 
+	    VkDebugUtilsMessengerEXT m_DebugMessenger;
+		
+
 
 
 

@@ -9,37 +9,37 @@
 namespace WolfRenderer
 {
 	v_Devices::v_Devices() :
-		physicalDeviceCount(0)
+		m_PhysicalDeviceCount(0)
 	{
 		
 	}
 
 	void v_Devices::initialize(VkInstance instance, SDL_Window* window, v_Debugger& theDebugger, VkSurfaceKHR theSurface)
 	{
-		availablePhysicalDevices = locatePhysicalDevices(instance);
+		m_AvailablePhysicalDevices = locatePhysicalDevices(instance);
 		selectPhysicalDevice(); 
-		queueFamilies.acquire(this->physicalDevice, theSurface);
-		swapChain.validateAndPopulate(this->physicalDevice, window, theSurface);
+		m_QueueFamilies.acquire(this->m_PhysicalDevice, theSurface);
+		m_SwapChain.validateAndPopulate(this->m_PhysicalDevice, window, theSurface);
 		createLogicalDevice(theDebugger);
 		std::cout << "Physical and Logical Devices successfuly set up!\n";
 
 
 		//TODO: set these to be their own functionality outside of device initalization 
-		swapChain.createSwapChain(logicalDevice, theSurface, queueFamilies);
-		imageViews.createImageViews(logicalDevice, swapChain.getSwapChainImages(), swapChain.getSurfaceFormat());
-		graphicsPipeline.createGraphicsPipeline(logicalDevice, swapChain);
-		framebuffer.createFramebuffers(logicalDevice, imageViews.getImageViews(), swapChain.getImageExtentWidth(), swapChain.getImageExtentHeight(), graphicsPipeline.getRenderPass());
-		commandPool.createCommandPool(logicalDevice, queueFamilies.getQueueFamilyIndices());
+		m_SwapChain.createSwapChain(m_LogicalDevice, theSurface, m_QueueFamilies);
+		m_ImageViews.createImageViews(m_LogicalDevice, m_SwapChain.getSwapChainImages(), m_SwapChain.getSurfaceFormat());
+		m_GraphicsPipeline.createGraphicsPipeline(m_LogicalDevice, m_SwapChain);
+		m_Framebuffer.createFramebuffers(m_LogicalDevice, m_ImageViews.getImageViews(), m_SwapChain.getImageExtentWidth(), m_SwapChain.getImageExtentHeight(), m_GraphicsPipeline.getRenderPass());
+		m_CommandPool.createCommandPool(m_LogicalDevice, m_QueueFamilies.getQueueFamilyIndices());
 
-		commandBuffer.createCommandBuffer(logicalDevice, commandPool.getCommandPool()); 
+		m_CommandBuffer.createCommandBuffer(m_LogicalDevice, m_CommandPool.getCommandPool()); 
 
-		syncObjects.createSyncObjects(logicalDevice); 
+		m_SyncObjects.createSyncObjects(m_LogicalDevice); 
 	}
 
 	void v_Devices::draw(const uint32_t& imageIndex, int& currentFrame)
 	{
-			queueFamilies.submitQueue(queueFamilies.getGraphicsQueueHandle(), syncObjects.getImageSemaphore(currentFrame), syncObjects.getRenderFinishedSemaphore(currentFrame), syncObjects.getInFlightFence(currentFrame), commandBuffer.getCommandBufferPtr(currentFrame));
-			queueFamilies.presentTheQueue(syncObjects.getImageSemaphore(currentFrame), queueFamilies.getPresentQueueHandle(), swapChain.getSwapchainHandle(), imageIndex);
+			m_QueueFamilies.submitQueue(m_QueueFamilies.getGraphicsQueueHandle(), m_SyncObjects.getImageSemaphore(currentFrame), m_SyncObjects.getRenderFinishedSemaphore(currentFrame), m_SyncObjects.getInFlightFence(currentFrame), m_CommandBuffer.getCommandBufferPtr(currentFrame));
+			m_QueueFamilies.presentTheQueue(m_SyncObjects.getImageSemaphore(currentFrame), m_QueueFamilies.getPresentQueueHandle(), m_SwapChain.getSwapchainHandle(), imageIndex);
 	}
 
 	v_Devices::~v_Devices()
@@ -49,15 +49,15 @@ namespace WolfRenderer
 
 	std::vector<VkPhysicalDevice> v_Devices::locatePhysicalDevices(VkInstance instance)
 	{
-		vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, nullptr);
+		vkEnumeratePhysicalDevices(instance, &m_PhysicalDeviceCount, nullptr);
 		//TODO: implement into event system 
-		if (physicalDeviceCount == 0)
+		if (m_PhysicalDeviceCount == 0)
 		{
 			throw std::runtime_error("No GPUs available on current hardware to support Vulkan!\n");
 		}
 
-		std::vector<VkPhysicalDevice> devices(physicalDeviceCount);
-		vkEnumeratePhysicalDevices(instance, &physicalDeviceCount, devices.data());
+		std::vector<VkPhysicalDevice> devices(m_PhysicalDeviceCount);
+		vkEnumeratePhysicalDevices(instance, &m_PhysicalDeviceCount, devices.data());
 
 		return devices; 
 	}
@@ -108,7 +108,7 @@ namespace WolfRenderer
 	{
 		std::multimap<int, VkPhysicalDevice> candidates;
 
-		for (const auto& device : availablePhysicalDevices)
+		for (const auto& device : m_AvailablePhysicalDevices)
 		{
 			int score = ratePhysicalDevice(device);
 			if (isDeviceSuitable(device))
@@ -119,14 +119,14 @@ namespace WolfRenderer
 
 		if (candidates.rbegin()->first > 0)
 		{
-			physicalDevice = candidates.rbegin()->second; 
-			vkGetPhysicalDeviceProperties(physicalDevice, &physicalDeviceProperties); 
-			vkGetPhysicalDeviceFeatures(physicalDevice, &physicalDeviceFeatures);
-			std::cout << physicalDeviceProperties.deviceName << " has been chosen!\n";
+			m_PhysicalDevice = candidates.rbegin()->second; 
+			vkGetPhysicalDeviceProperties(m_PhysicalDevice, &m_PhysicalDeviceProperties); 
+			vkGetPhysicalDeviceFeatures(m_PhysicalDevice, &m_PhysicalDeviceFeatures);
+			std::cout << m_PhysicalDeviceProperties.deviceName << " has been chosen!\n";
 		}
 
 
-		if (physicalDevice == VK_NULL_HANDLE)
+		if (m_PhysicalDevice == VK_NULL_HANDLE)
 		{
 			throw std::runtime_error("Unable to find GPU for Vulkan usage\n");
 		}
@@ -139,11 +139,11 @@ namespace WolfRenderer
 		createInfo.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO; 
 		 
 		//TODO: implement getter for queueCreateInfo struct
-		createInfo.pQueueCreateInfos = queueFamilies.ptrToQueueCreateInfo();
-		createInfo.queueCreateInfoCount = queueFamilies.getQueueCreateInfoSize();//static_cast<uint32_t>(this->queueFamilies.getQueueCreateInfos().size());
-		createInfo.pEnabledFeatures = &physicalDeviceFeatures;
-		createInfo.enabledExtensionCount = swapChain.getRequiredSwapChainExtensions().size();
-		createInfo.ppEnabledExtensionNames = swapChain.ptrToRequiredSwapChainExtensions();
+		createInfo.pQueueCreateInfos = m_QueueFamilies.ptrToQueueCreateInfo();
+		createInfo.queueCreateInfoCount = m_QueueFamilies.getQueueCreateInfoSize();//static_cast<uint32_t>(this->m_QueueFamilies.getQueueCreateInfos().size());
+		createInfo.pEnabledFeatures = &m_PhysicalDeviceFeatures;
+		createInfo.enabledExtensionCount = m_SwapChain.getRequiredSwapChainExtensions().size();
+		createInfo.ppEnabledExtensionNames = m_SwapChain.ptrToRequiredSwapChainExtensions();
 		
 		if (theDebugger.isValidationEnabled())
 		{
@@ -155,7 +155,7 @@ namespace WolfRenderer
 			createInfo.enabledLayerCount = 0; 
 		}
 
-			if (vkCreateDevice(physicalDevice, &createInfo, nullptr, &logicalDevice) != VK_SUCCESS)
+			if (vkCreateDevice(m_PhysicalDevice, &createInfo, nullptr, &m_LogicalDevice) != VK_SUCCESS)
 		{
 			throw std::runtime_error("Unable to create Vulkan Logical Device!");
 		}
@@ -164,19 +164,19 @@ namespace WolfRenderer
 			std::cout << "Vulkan logical device successfully created!\n";
 		}
 
-		queueFamilies.getGraphicsQueue(logicalDevice);
-		queueFamilies.getPresentationQueue(logicalDevice);
+		m_QueueFamilies.getGraphicsQueue(m_LogicalDevice);
+		m_QueueFamilies.getPresentationQueue(m_LogicalDevice);
 	}
 
 	void v_Devices::destroyLogicalDevice()
 	{
-		syncObjects.destroySyncObjects(logicalDevice); 
-		commandPool.destroyCommandPool(logicalDevice); 
-		framebuffer.destroyFramebuffers(logicalDevice); 
-		graphicsPipeline.destroyPipeline(logicalDevice);
-		imageViews.destroyImageViews(logicalDevice); 
-		swapChain.destroySwapchain(logicalDevice); 
-		vkDestroyDevice(logicalDevice, nullptr);
+		m_SyncObjects.destroySyncObjects(m_LogicalDevice); 
+		m_CommandPool.destroyCommandPool(m_LogicalDevice); 
+		m_Framebuffer.destroyFramebuffers(m_LogicalDevice); 
+		m_GraphicsPipeline.destroyPipeline(m_LogicalDevice);
+		m_ImageViews.destroyImageViews(m_LogicalDevice); 
+		m_SwapChain.destroySwapchain(m_LogicalDevice); 
+		vkDestroyDevice(m_LogicalDevice, nullptr);
 		std::cout << "Logical device successfully destroyed!\n";
 	}
 	

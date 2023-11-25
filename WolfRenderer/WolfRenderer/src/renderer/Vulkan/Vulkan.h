@@ -1,7 +1,8 @@
 #pragma once
 #include <vulkan/vulkan.h>
-#include <SDL3/SDL_vulkan.h>
 
+
+#include "v_Instance/v_Instance.h"
 #include "v_Debugger/v_Debugger.h"
 #include "v_Devices/v_Devices.h"
 #include "v_Surface/v_Surface.h"
@@ -12,6 +13,8 @@
 #include "core/core.h"
 #include "core/LayerStack.h"
 
+#include <mutex>
+#include <condition_variable>
 //Utilization of Singleton for our Vulkan Renderer
 namespace WolfRenderer
 {
@@ -30,11 +33,8 @@ namespace WolfRenderer
 		//public function to destroy our Vulkan instance
 		static void closeVulkan();
 
-		static VkInstance getInstance();
-
-		static VkDebugUtilsMessengerEXT getTheDebugger();
-
 		static void drawFrame();
+
 	private:
 		Vulkan();
 
@@ -49,39 +49,18 @@ namespace WolfRenderer
 
 		//destroys the Vulkan instance
 		void destroy_Vulkan();
+		void draw();
 
-		void createInstance();
-
-		
-
-		std::vector<VkExtensionProperties> getAvailableExtensions();
-
-
-		//populates our extension count and names
-		std::vector<const char*> getRequiredExtensions();
-
-		VkInstance retrieveTheInstance() const;
-
-        void draw(); 
+    //synchronization variables
+	private:
+		std::mutex instanceCreationStatus; 
+		std::condition_variable instanceCreationSuccessful; 
 
 	private:
-		//handle for our Vulkan instance
-		VkInstance m_Instance;
 
-		uint32_t m_AvailableExtensionCount;
-
-		std::vector<VkExtensionProperties> m_AvailableExtensions;
-
-		//number of required extensions for Vulkan to function 
-		uint32_t m_RequiredExtensionCount;
-
-		//array of available extensions on our OS
-		std::vector<const char*> m_RequiredExtensionNames;
-
-
-	private:
-		v_Debugger debugger;
-		v_Devices devices;
-		v_Surface winSurface;
+		v_Instance m_Instance{ m_Debugger, instanceCreationStatus, instanceCreationSuccessful };
+		v_Debugger m_Debugger{ m_Instance.getInstance(), m_Instance.isInstanceCreated(), instanceCreationStatus, instanceCreationSuccessful };
+		v_Devices m_Devices;
+		v_Surface m_WinSurface;
 	};
 }

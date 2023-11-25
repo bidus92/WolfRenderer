@@ -11,23 +11,39 @@
 
 namespace WolfRenderer
 {
-#ifdef WLFR_DEBUG
+
 	v_ValidationLayers::v_ValidationLayers()
 	{
-		this->enableLayers = true;
-		this->validationLayers.push_back("VK_LAYER_KHRONOS_validation");
-		checkSupport();
+
 	}
-#else
-	v_ValidationLayers::v_ValidationLayers()
-	{
-		this->enableLayers = false; 
-	}
-#endif
+
+
 
 	v_ValidationLayers::~v_ValidationLayers()
 	{
+		checkSupport();
+	}
 
+	bool v_ValidationLayers::isValidationEnabled()
+	{
+		if (WLFR_DEBUG && validationLayersChecked == 0)
+		{
+			enableLayers = true; 
+			m_ValidationLayers.push_back("VK_LAYER_KHRONOS_validation");
+			validationLayersChecked++; 
+			return enableLayers; 
+		}
+		else if (!WLFR_DEBUG && validationLayersChecked == 0)
+		{
+			enableLayers = false; 
+			validationLayersChecked++; 
+			return enableLayers;
+		}
+		else
+		{
+            return enableLayers; 
+		}
+		
 	}
 
 	bool v_ValidationLayers::checkSupport()
@@ -39,7 +55,7 @@ namespace WolfRenderer
 
 		vkEnumerateInstanceLayerProperties(&layerCount, availableLayers.data());
 
-		for (const char* layerName : validationLayers) {
+		for (const char* layerName : m_ValidationLayers) {
 			bool layerFound = false;
 
 			for (const auto& layerProperties : availableLayers) {
