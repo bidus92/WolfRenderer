@@ -158,7 +158,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\renderer\Vulkan\v_Instance\v_Instance.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WolfRenderer.h" />
     <ClInclude Include="src\core\Application.h" />
@@ -185,6 +184,7 @@
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SwapChain\v_SwapChain.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Devices\v_SyncObjects\v_SyncObjects.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Globals.h" />
+    <ClInclude Include="src\renderer\Vulkan\v_Instance\v_Instance.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Shaders\v_Shaders.h" />
     <ClInclude Include="src\renderer\Vulkan\v_Surface\v_Surface.h" />

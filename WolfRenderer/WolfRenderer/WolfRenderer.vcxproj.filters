@@ -52,6 +52,9 @@
     <Filter Include="renderer\Vulkan\v_Devices\v_SyncObjects">
       <UniqueIdentifier>{0E397D26-7AC8-3E11-83C4-1F29EFD2791D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="renderer\Vulkan\v_Instance">
+      <UniqueIdentifier>{552E326E-413E-DE3E-AAF7-425D9626CDD7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="renderer\Vulkan\v_Pipeline">
       <UniqueIdentifier>{96DB125B-82EB-BE2B-EBA4-234AD7D3ADC4}</UniqueIdentifier>
     </Filter>
@@ -135,6 +138,9 @@
     <ClInclude Include="src\renderer\Vulkan\v_Globals.h">
       <Filter>renderer\Vulkan</Filter>
     </ClInclude>
+    <ClInclude Include="src\renderer\Vulkan\v_Instance\v_Instance.h">
+      <Filter>renderer\Vulkan\v_Instance</Filter>
+    </ClInclude>
     <ClInclude Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.h">
       <Filter>renderer\Vulkan\v_Pipeline</Filter>
     </ClInclude>
@@ -144,7 +150,6 @@
     <ClInclude Include="src\renderer\Vulkan\v_Surface\v_Surface.h">
       <Filter>renderer\Vulkan\v_Surface</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\Vulkan\v_Instance\v_Instance.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
@@ -208,6 +213,9 @@
     <ClCompile Include="src\renderer\Vulkan\v_Devices\v_SyncObjects\v_SyncObjects.cpp">
       <Filter>renderer\Vulkan\v_Devices\v_SyncObjects</Filter>
     </ClCompile>
+    <ClCompile Include="src\renderer\Vulkan\v_Instance\v_Instance.cpp">
+      <Filter>renderer\Vulkan\v_Instance</Filter>
+    </ClCompile>
     <ClCompile Include="src\renderer\Vulkan\v_Pipeline\v_Pipeline.cpp">
       <Filter>renderer\Vulkan\v_Pipeline</Filter>
     </ClCompile>
@@ -217,6 +225,5 @@
     <ClCompile Include="src\renderer\Vulkan\v_Surface\v_Surface.cpp">
       <Filter>renderer\Vulkan\v_Surface</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\Vulkan\v_Instance\v_Instance.cpp" />
   </ItemGroup>
 </Project>

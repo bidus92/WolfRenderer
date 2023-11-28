@@ -23,28 +23,41 @@ namespace WolfRenderer
 	{
 		checkSupport();
 	}
+#ifdef WLFR_DEBUG
 
 	bool v_ValidationLayers::isValidationEnabled()
 	{
-		if (WLFR_DEBUG && validationLayersChecked == 0)
+		if (validationLayersChecked == 0)
 		{
-			enableLayers = true; 
+			enableLayers = true;
 			m_ValidationLayers.push_back("VK_LAYER_KHRONOS_validation");
-			validationLayersChecked++; 
-			return enableLayers; 
+			validationLayersChecked++;
+			return enableLayers;
 		}
-		else if (!WLFR_DEBUG && validationLayersChecked == 0)
+
+		else
 		{
-			enableLayers = false; 
-			validationLayersChecked++; 
+			return enableLayers;
+		}
+
+}
+#else
+	bool v_ValidationLayers::isValidationEnabled()
+	{
+		if (validationLayersChecked == 0)
+		{
+			enableLayers = false;
+			validationLayersChecked++;
 			return enableLayers;
 		}
 		else
 		{
-            return enableLayers; 
+			return enableLayers;
 		}
-		
+
 	}
+
+#endif // 
 
 	bool v_ValidationLayers::checkSupport()
 	{

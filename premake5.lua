@@ -111,12 +111,12 @@ filter "configurations:Debug"
 
 
 filter "configurations:Release"
-	defines "WLFR_RELEASE"
+	defines {"WLFR_RELEASE"}
 	optimize "On"
 	buildoptions "/MD"
 
 filter "configurations:Dist"
-	defines "WLFR_DIST"
+	defines {"WLFR_DIST"}
 	optimize "On"
 	buildoptions "/MD"
 
@@ -184,6 +184,6 @@ filter "configurations:Release"
     buildoptions "/MD"
 
 filter "configurations:Dist"
-	defines "WLFR_DIST"
+	defines {"WLFR_DIST"}
 	optimize "On"
 	buildoptions "/MD"
