@@ -23,6 +23,7 @@ namespace WolfRenderer
 	{
 		checkSupport();
 	}
+<<<<<<< HEAD
 #ifdef WLFR_DEBUG
 
 	bool v_ValidationLayers::isValidationEnabled()
@@ -54,7 +55,29 @@ namespace WolfRenderer
 		{
 			return enableLayers;
 		}
+=======
+>>>>>>> b3db18736bc466d76cfde8fd108a09b2d71ac3bf
 
+	bool v_ValidationLayers::isValidationEnabled()
+	{
+		if (WLFR_DEBUG && validationLayersChecked == 0)
+		{
+			enableLayers = true; 
+			m_ValidationLayers.push_back("VK_LAYER_KHRONOS_validation");
+			validationLayersChecked++; 
+			return enableLayers; 
+		}
+		else if (!WLFR_DEBUG && validationLayersChecked == 0)
+		{
+			enableLayers = false; 
+			validationLayersChecked++; 
+			return enableLayers;
+		}
+		else
+		{
+            return enableLayers; 
+		}
+		
 	}
 
 #endif // 
