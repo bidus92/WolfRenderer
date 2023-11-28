@@ -23,7 +23,6 @@ namespace WolfRenderer
 	{
 		checkSupport();
 	}
-<<<<<<< HEAD
 #ifdef WLFR_DEBUG
 
 	bool v_ValidationLayers::isValidationEnabled()
@@ -55,8 +54,6 @@ namespace WolfRenderer
 		{
 			return enableLayers;
 		}
-=======
->>>>>>> b3db18736bc466d76cfde8fd108a09b2d71ac3bf
 
 	bool v_ValidationLayers::isValidationEnabled()
 	{
