@@ -22,6 +22,8 @@ namespace WolfRenderer
 	v_ValidationLayers::~v_ValidationLayers()
 	{
 		checkSupport();
+<<<<<<< HEAD
+=======
 	}
 
 	bool v_ValidationLayers::isValidationEnabled()
@@ -44,7 +46,63 @@ namespace WolfRenderer
             return enableLayers; 
 		}
 		
+>>>>>>> 954b04f4ec3c3a709707c6b80d20c6c96aef424b
 	}
+#ifdef WLFR_DEBUG
+
+	bool v_ValidationLayers::isValidationEnabled()
+	{
+		if (validationLayersChecked == 0)
+		{
+			enableLayers = true;
+			m_ValidationLayers.push_back("VK_LAYER_KHRONOS_validation");
+			validationLayersChecked++;
+			return enableLayers;
+		}
+
+		else
+		{
+			return enableLayers;
+		}
+
+}
+#else
+	bool v_ValidationLayers::isValidationEnabled()
+	{
+		if (validationLayersChecked == 0)
+		{
+			enableLayers = false;
+			validationLayersChecked++;
+			return enableLayers;
+		}
+		else
+		{
+			return enableLayers;
+		}
+
+	bool v_ValidationLayers::isValidationEnabled()
+	{
+		if (WLFR_DEBUG && validationLayersChecked == 0)
+		{
+			enableLayers = true; 
+			m_ValidationLayers.push_back("VK_LAYER_KHRONOS_validation");
+			validationLayersChecked++; 
+			return enableLayers; 
+		}
+		else if (!WLFR_DEBUG && validationLayersChecked == 0)
+		{
+			enableLayers = false; 
+			validationLayersChecked++; 
+			return enableLayers;
+		}
+		else
+		{
+            return enableLayers; 
+		}
+		
+	}
+
+#endif // 
 
 	bool v_ValidationLayers::checkSupport()
 	{
