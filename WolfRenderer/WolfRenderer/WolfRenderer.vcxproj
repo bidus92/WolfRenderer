@@ -158,7 +158,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\renderer\Vulkan\v_Instance\v_Instance.h" />
     <ClInclude Include="src\Window.h" />
     <ClInclude Include="src\WolfRenderer.h" />
     <ClInclude Include="src\core\Application.h" />

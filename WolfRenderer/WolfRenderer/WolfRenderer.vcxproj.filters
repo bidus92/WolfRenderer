@@ -150,7 +150,6 @@
     <ClInclude Include="src\renderer\Vulkan\v_Surface\v_Surface.h">
       <Filter>renderer\Vulkan\v_Surface</Filter>
     </ClInclude>
-    <ClInclude Include="src\renderer\Vulkan\v_Instance\v_Instance.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\core\src\Application.cpp">
@@ -226,6 +225,5 @@
     <ClCompile Include="src\renderer\Vulkan\v_Surface\v_Surface.cpp">
       <Filter>renderer\Vulkan\v_Surface</Filter>
     </ClCompile>
-    <ClCompile Include="src\renderer\Vulkan\v_Instance\v_Instance.cpp" />
   </ItemGroup>
 </Project>
