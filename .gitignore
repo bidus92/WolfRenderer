@@ -3,10 +3,10 @@
 .vs/
 bin/
 bin-int/
-.sln
+
 
 #files 
-
+*.sln
 *.user
 *.json
 *json.command
