@@ -32,7 +32,6 @@
 
 ## Additional Notes
    * Premake, ImGui, SDL are included directly or as subrepositories in this project. 
-   * NOTE: Dist Build currently has bugs that are being worked on. Debug and Release builds will compile and run without error. 
 # Setup
    * In the Project Repository, click **Code** and copy the link to clone your repository in location of your choosing.
 
